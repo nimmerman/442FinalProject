@@ -4,7 +4,7 @@ function [ parted_bounds ] = partitionBoundaries(boundaries, num_partitions)
 %   This function takes as input a set of occluding boundaries of an image
 %   and splits into num_partitions partitions each with an equal number of
 %   points as closely as possible
-%       INPUT - im: an image object
+%       INPUT - 
 %               boundaries: a cell array of boundary points for each
 %               boundary. each cell contains a n x 2 array of points 
 %               (row major order) corrsponding to the location of each of
@@ -28,7 +28,5 @@ for i = 1:num_boundaries
     end
     parted_bounds{i} = B;
 end
-
-
 end
 
