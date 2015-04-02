@@ -43,6 +43,7 @@ occ_intensity = Im(round(P(2)), round(P(1)));
 if true
     return;
 end
+
 Nx = N(1);
 Ny = N(2);
 Px = P(1);
@@ -61,14 +62,14 @@ for i = 1:15
     PofT = [PofT; log(Im(newPointy, newPointx))];
     xvalues = [xvalues; 1 log(i)];
 end
-PofT
-xvalues
-params = xvalues \ PofT
-Alpha = exp(params(1))
-Beta = params(2)
+% PofT
+% xvalues
+params = xvalues \ PofT;
+Alpha = exp(params(1));
+Beta = params(2);
 
 small_number = .5;
-occ_intensity = Alpha * small_number .^ Beta
+occ_intensity = Alpha * small_number .^ Beta;
 
 end
 
