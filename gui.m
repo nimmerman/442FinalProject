@@ -22,7 +22,7 @@ function varargout = gui(varargin)
 
 % Edit the above text to modify the response to help gui
 
-% Last Modified by GUIDE v2.5 02-Apr-2015 11:39:51
+% Last Modified by GUIDE v2.5 13-Apr-2015 16:58:19
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -54,8 +54,7 @@ function gui_OpeningFcn(hObject, eventdata, handles, varargin)
 handles.image = imread(varargin{1});
 axes(handles.axes1)
 imshow(handles.image)
-handles.h = imfreehand(gca);
-setClosed(handles.h,false);
+
 % Choose default command line output for gui
 handles.output = hObject;
 
@@ -79,9 +78,9 @@ global count;
 count = 1;
 
 
-% --- Executes on button press in pushbutton1.
-function pushbutton1_Callback(hObject, eventdata, handles)
-% hObject    handle to pushbutton1 (see GCBO)
+% --- Executes on button press in add_boundary_button.
+function add_boundary_button_Callback(hObject, eventdata, handles)
+% hObject    handle to add_boundary_button (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 global count;
@@ -89,23 +88,75 @@ if isempty(count)
    count = 1;
 end
 
-if ~exist('handles.boundries')
-    handles.boundries = cell(1);
-end
+handles.h = imfreehand(gca);
+setClosed(handles.h,false);
 
-handles.boundries{count} = getPosition(handles.h);
+
+if ~exist('handles.boundaries')
+    handles.boundaries = cell(1);
+end
+Pos = getPosition(handles.h);
+X = Pos(:,1);
+Y = Pos(:,2);
+
+domain = [min(X):0.1:max(X)];
+[X,Y] = interpolate(X,Y);
+
+handles.boundaries{count} = [X Y];
+
 delete(handles.h);
-data = handles.boundries{count};
+
 hold on;
-plot(data(:,1),data(:,2),'r');
+plot(X,Y,'ro-');
+
 % handles.h = [];
 count = count + 1;
 
-axis(handles.axes2);
-imshow(handles.image);
+%axis(handles.axes2);
+%imshow(handles.image);
 % axis(handles.axes1);
 
-handles.h = imfreehand(gca);
-setClosed(handles.h,false);
+% handles.h = imfreehand(gca);
+% setClosed(handles.h,false);
 guidata(hObject, handles); 
+
+
+% --- Executes on button press in finishboundaries.
+function finishboundaries_Callback(hObject, eventdata, handles)
+% hObject    handle to finishboundaries (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+handles.h = 0;
+num_partitions = 8;
+%now partition boundaries
+if ~exist('handles.partitions')
+    [handles.partitions_B, handles.partitions_alt] = partitionBoundaries(handles.boundaries,num_partitions);
+end
+
+fprintf('Number of points in boundary: %d\n', length(handles.boundaries{1}));
+original_axes = [get(gca,'XLim') get(gca,'YLim')]
+for curr_boundary = 1:length(handles.partitions_alt)
+    for curr_partition = 1:length(handles.partitions_alt{curr_boundary})
+        x = handles.partitions_alt{curr_boundary}{curr_partition}(:,1);
+        y = handles.partitions_alt{curr_boundary}{curr_partition}(:,2);
+         plot(x,y,'go');
+         
+         limit = 10;
+         axis([min(x) - limit, max(x) + limit, min(y) - limit, max(y) + limit]);
+         point_a = impoint()
+         point_b = impoint()
+         point_c = impoint()
+         pause(1);
+                           
+         plot(x,y,'ro');
+
+    end
+end
+axis(original_axes);
+
+
+guidata(hObject, handles); 
+
+function [X,Y] = interpolate(X,Y)
+
 
