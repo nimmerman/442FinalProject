@@ -40,7 +40,9 @@ end
 %% intensity: function description
 function [ occ_intensity ] = getIntensity(N, P, Im)
 occ_intensity = Im(round(P(2)), round(P(1)));
-if true
+
+estimation = true;
+if ~estimation
     return;
 end
 
