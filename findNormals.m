@@ -1,56 +1,62 @@
-function [ Norms ] = findNormals(parted_bounds, num_partitions, source_points)
+function [ Norms, normals_alt ] = findNormals(parted_bounds, num_partitions, source_points)
 %FINDNORMALS - This function finds the normals of points on a given
 %boundary
-%INPUT - parted_bounds
+%INPUT - parted_bounds: 
 %        num_partitions
 %        source_points: a cell array of 3*num_partitions x 2 matrix of points to use for
 %        an estimate of each patch
 
-Norms = cell(length(parted_bounds),1);
-for h = 1:length(parted_bounds)
+Norms = cell(length(parted_bounds),1); % Cell Array of M's (from paper)
+normals_alt = cell(length(parted_bounds),1);
+for curr_bound = 1:length(parted_bounds)
     
-    bound_h = parted_bounds{h};
+    bound = parted_bounds{curr_bound};
     
-    M = zeros(size(bound_h,1),size(bound_h,2)+1);
-    if source_points
-        points = source_points{h};
-    else
-        points = 0; %for testing
-    end
+    M = zeros(size(bound,1),size(bound,2)+1);
+    points = source_points{curr_bound};
+    normals = cell(num_partitions,1);
     for i = 1:num_partitions
-        if (points)
-            points_i = points((3*i - 2):3*i);
-        else
-            points_i = [4 2 1; 1 4 2]'; %for testing
-        end
+        points_i = points((3*i - 2):3*i,:);
+
         p1 = points_i(1,:);
         p2 = points_i(2,:);
         p3 = points_i(3,:);
         
-        x = [p1(1) p2(1) p3(1)];
-        y = [p1(2) p2(2) p3(2)];
         
-        [coefs,~,~] = polyfit(x,y,2);
-        a = coefs(1);
+        [a,b,c] = quadratic_coefs(p1,p2,p3);
+        
+        X = [0:0.1:151];
+        Y = a*X.^2 + b*X + c;
+        %plot(X, Y, '-b');
+        
         c_x = 2*i - 1;
         c_y = 2*i;
-        size(bound_h,2)
-        points_per_part = size(bound_h,1)/num_partitions;
+        size(bound,2)
+        points_per_part = size(bound,1)/num_partitions;
         r0 = (i - 1)*points_per_part;
         
-
-        %might need to convert to x and y first
+        part_normals = [];
         for j = 1:points_per_part
-            point = bound_h(j,c_x:c_y);
-            Nx = -2*a*point(1)/sqrt(1+4*a^2*point(1)^2);
-            Ny = sqrt(1 - Nx^2);
-            M(r0+j,c_x) = Nx;
-            M(r0+j,c_y) = Ny;
+            vertex_x = -b/2*a;
+            vertex_y = a*vertex_x^2 + b*vertex_x + c;
+            
+            
+            point = bound(r0+j,c_x:c_y);
+            m = -1.0/(2*a*point(1) + b);
+            normal = [1 m]/norm([1 m]);
+            
+            M(r0+j,c_x:c_y) = normal;
+            if normal(2) > 0
+                normal = -normal;
+            end
+            part_normals = [part_normals; normal];
+            
         end 
+        normals{i} = part_normals;
     end
     M(:,end) = 1;
-    Norms{h} = M;
-    
+    Norms{curr_bound} = M;
+    normals_alt{curr_bound} = normals;
 end
 
 

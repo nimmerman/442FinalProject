@@ -22,7 +22,7 @@ function varargout = gui(varargin)
 
 % Edit the above text to modify the response to help gui
 
-% Last Modified by GUIDE v2.5 13-Apr-2015 16:58:19
+% Last Modified by GUIDE v2.5 14-Apr-2015 13:29:00
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -92,32 +92,30 @@ handles.h = imfreehand(gca);
 setClosed(handles.h,false);
 
 
-if ~exist('handles.boundaries')
-    handles.boundaries = cell(1);
+if isempty('handles.boundaries')
+    handles.boundaries = cell(1)
 end
 Pos = getPosition(handles.h);
 X = Pos(:,1);
 Y = Pos(:,2);
 
-domain = [min(X):0.1:max(X)];
-[X,Y] = interpolate(X,Y);
+%domain = [min(X):0.1:max(X)];
+%[X,Y] = interpolate(X,Y);
 
 handles.boundaries{count} = [X Y];
+
+fprintf('----\n')
+for j = 1:count
+    size(handles.boundaries{j})
+end
 
 delete(handles.h);
 
 hold on;
 plot(X,Y,'ro-');
 
-% handles.h = [];
 count = count + 1;
 
-%axis(handles.axes2);
-%imshow(handles.image);
-% axis(handles.axes1);
-
-% handles.h = imfreehand(gca);
-% setClosed(handles.h,false);
 guidata(hObject, handles); 
 
 
@@ -127,14 +125,16 @@ function finishboundaries_Callback(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 handles.h = 0;
-num_partitions = 8;
+num_partitions = 5;
 %now partition boundaries
-if ~exist('handles.partitions')
+if ~exist('handles.partitions_B')
     [handles.partitions_B, handles.partitions_alt] = partitionBoundaries(handles.boundaries,num_partitions);
 end
 
 fprintf('Number of points in boundary: %d\n', length(handles.boundaries{1}));
 original_axes = [get(gca,'XLim') get(gca,'YLim')]
+handles.partitions_alt
+handles.quad_source_points = cell(1,length(handles.boundaries));
 for curr_boundary = 1:length(handles.partitions_alt)
     for curr_partition = 1:length(handles.partitions_alt{curr_boundary})
         x = handles.partitions_alt{curr_boundary}{curr_partition}(:,1);
@@ -143,20 +143,38 @@ for curr_boundary = 1:length(handles.partitions_alt)
          
          limit = 10;
          axis([min(x) - limit, max(x) + limit, min(y) - limit, max(y) + limit]);
-         point_a = impoint()
-         point_b = impoint()
-         point_c = impoint()
-         pause(1);
-                           
+         point_a = impoint();
+         point_b = impoint();
+         point_c = impoint();
+         
+         handles.quad_source_points{curr_boundary} = [handles.quad_source_points{curr_boundary}; 
+                                                      point_a.getPosition();
+                                                      point_b.getPosition();
+                                                      point_c.getPosition();];
+         
+         pause(.5);
+         delete(point_a);
+         delete(point_b);
+         delete(point_c);
+         
+                 
          plot(x,y,'ro');
-
     end
 end
 axis(original_axes);
 
+[Norms,normals_alt] = findNormals(handles.partitions_B, num_partitions, handles.quad_source_points);
+
+for i = 1:length(normals_alt)
+    for j = 1:length(normals_alt{i})
+        for k = 1:length(normals_alt{i}{j})        
+            point_1 = handles.partitions_alt{i}{j}(k,:);
+            point_2 = 6*normals_alt{i}{j}(k,:) + point_1;
+            plot([point_1(1) point_2(1)],[point_1(2) point_2(2)],'-g')
+        end
+    end
+end
 
 guidata(hObject, handles); 
 
 function [X,Y] = interpolate(X,Y)
-
-
