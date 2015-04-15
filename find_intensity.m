@@ -10,7 +10,7 @@ function [ intensitys ] = find_intensitys(Normals, Points, num_partitions, Im)
 % For every boundry there are normals and points   
 assert(size(Normals,1) == size(Points,1));
 intensitys = cell(1,numel(Normals));
-
+Im = im2double(Im);
 for boundry = 1:length(Normals)
     currentPatchNormals = Normals{boundry};
     currentPatchPoints = Points{boundry};
@@ -54,8 +54,8 @@ Py = P(2);
 PofT = []; %log(p(ti))
 xvalues = []; % [1 log(ti)]
 for i = 1:15
-    newPointy = Py - i * Ny;
-    newPointx = Px - i * Nx;
+    newPointy = round(Py - i * Ny);
+    newPointx = round(Px - i * Nx);
 
     if ~inBounds(newPointx, newPointy, Im)
         break;

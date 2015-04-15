@@ -93,7 +93,7 @@ setClosed(handles.h,false);
 
 
 if isempty('handles.boundaries')
-    handles.boundaries = cell(1)
+    handles.boundaries = cell(1);
 end
 Pos = getPosition(handles.h);
 X = Pos(:,1);
@@ -125,7 +125,8 @@ function finishboundaries_Callback(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 handles.h = 0;
-num_partitions = 2;
+num_partitions = 3;
+handles.lambda = 10;
 %now partition boundaries
 if ~exist('handles.partitions_B')
     [handles.partitions_B, handles.partitions_alt] = partitionBoundaries(handles.boundaries,num_partitions);
@@ -183,6 +184,7 @@ end
 axis(original_axes);
 
 [Norms,normals_alt] = findNormals(handles.partitions_B, num_partitions, handles.quad_source_points,handles.directional_points);
+handles.normals = Norms;
 
 for i = 1:length(normals_alt)
     for j = 1:length(normals_alt{i})
@@ -195,6 +197,39 @@ for i = 1:length(normals_alt)
     end
 end
 
-guidata(hObject, handles); 
+%get intensities
+handles.intensities = find_intensity(Norms,handles.partitions_B,num_partitions,handles.image);
 
-function [X,Y] = interpolate(X,Y)
+%get C
+handles.C_matrices = cell(length(handles.boundaries),1);
+
+for i = 1:length(handles.C_matrices)
+   handles.C_matrices{i} = getC(num_partitions);
+end
+
+%get light direction vectors
+handles.V_vectors = cell(length(handles.boundaries),1);
+for i = 1:length(handles.V_vectors)
+    %making separate variables for clarity
+    M = handles.normals{i};
+    C = handles.C_matrices{i};
+    b = handles.intensities{i};
+    lambda = handles.lambda;
+
+    handles.V_vectors{i} = pinv((M'*M+lambda*(C'*C)))*M'*b; 
+end
+
+for i = 1:length(handles.V_vectors)
+    v = handles.V_vectors{i};
+    x_comp = mean(v(1:2:end - 1));
+    y_comp = mean(v(2:2:end - 1));
+    point_1 = [10 10];
+    point_2 = point_1 + 10*[x_comp y_comp];
+    plot([point_1(1)],[point_1(2)],'go')
+    plot([point_2(1)],[point_2(2)],'ro')
+
+    plot([point_1(1) point_2(1)],[point_1(2) point_2(2)],'-y')
+    
+end
+
+guidata(hObject, handles); 
