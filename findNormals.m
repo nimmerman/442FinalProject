@@ -1,10 +1,12 @@
-function [ Norms, normals_alt ] = findNormals(parted_bounds, num_partitions, source_points)
+function [ Norms, normals_alt ] = findNormals(parted_bounds, num_partitions, source_points, directional_points)
 %FINDNORMALS - This function finds the normals of points on a given
 %boundary
 %INPUT - parted_bounds: 
 %        num_partitions
 %        source_points: a cell array of 3*num_partitions x 2 matrix of points to use for
 %        an estimate of each patch
+%        directiona_points: a num_boundaries x 2 array of points indicating
+%        boundary concavity
 
 Norms = cell(length(parted_bounds),1); % Cell Array of M's (from paper)
 normals_alt = cell(length(parted_bounds),1);
@@ -21,12 +23,13 @@ for curr_bound = 1:length(parted_bounds)
         p1 = points_i(1,:);
         p2 = points_i(2,:);
         p3 = points_i(3,:);
-        
+        directional_point = directional_points(curr_bound);
         
         [a,b,c] = quadratic_coefs(p1,p2,p3);
         
         X = [0:0.1:151];
         Y = a*X.^2 + b*X + c;
+        
         %plot(X, Y, '-b');
         
         c_x = 2*i - 1;
@@ -36,19 +39,25 @@ for curr_bound = 1:length(parted_bounds)
         r0 = (i - 1)*points_per_part;
         
         part_normals = [];
-        for j = 1:points_per_part
-            vertex_x = -b/2*a;
-            vertex_y = a*vertex_x^2 + b*vertex_x + c;
+
             
+            
+        for j = 1:points_per_part
+
             
             point = bound(r0+j,c_x:c_y);
             m = -1.0/(2*a*point(1) + b);
             normal = [1 m]/norm([1 m]);
             
-            M(r0+j,c_x:c_y) = normal;
-            if normal(2) > 0
+            normal_point = point + normal;
+            reverse_normal_point = point - normal;
+            if norm(normal_point - directional_point) <...
+                norm(reverse_normal_point - directional_point)
                 normal = -normal;
             end
+            
+            M(r0+j,c_x:c_y) = normal;
+
             part_normals = [part_normals; normal];
             
         end 

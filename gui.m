@@ -125,17 +125,24 @@ function finishboundaries_Callback(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 handles.h = 0;
-num_partitions = 5;
+num_partitions = 2;
 %now partition boundaries
 if ~exist('handles.partitions_B')
     [handles.partitions_B, handles.partitions_alt] = partitionBoundaries(handles.boundaries,num_partitions);
 end
 
 fprintf('Number of points in boundary: %d\n', length(handles.boundaries{1}));
-original_axes = [get(gca,'XLim') get(gca,'YLim')]
-handles.partitions_alt
+original_axes = [get(gca,'XLim') get(gca,'YLim')];
 handles.quad_source_points = cell(1,length(handles.boundaries));
+handles.directional_points = zeros(length(handles.boundaries),2);
+
 for curr_boundary = 1:length(handles.partitions_alt)
+    
+    min_x = inf;
+    max_x = -inf;
+    min_y = inf;
+    max_y = -inf;
+    
     for curr_partition = 1:length(handles.partitions_alt{curr_boundary})
         x = handles.partitions_alt{curr_boundary}{curr_partition}(:,1);
         y = handles.partitions_alt{curr_boundary}{curr_partition}(:,2);
@@ -143,6 +150,14 @@ for curr_boundary = 1:length(handles.partitions_alt)
          
          limit = 10;
          axis([min(x) - limit, max(x) + limit, min(y) - limit, max(y) + limit]);
+         
+         min_x = min(min(x),min_x);
+         min_y = min(min(y),min_y);
+         max_x = max(max(x),max_x);
+         max_y = max(max(y),max_y);
+         
+         
+         
          point_a = impoint();
          point_b = impoint();
          point_c = impoint();
@@ -156,20 +171,25 @@ for curr_boundary = 1:length(handles.partitions_alt)
          delete(point_a);
          delete(point_b);
          delete(point_c);
-         
                  
          plot(x,y,'ro');
     end
+    
+    axis([min_x,max_x,min_y,max_y]);
+    p = impoint();
+    handles.directional_points(curr_boundary,:) = p.getPosition();
+    delete(p);
 end
 axis(original_axes);
 
-[Norms,normals_alt] = findNormals(handles.partitions_B, num_partitions, handles.quad_source_points);
+[Norms,normals_alt] = findNormals(handles.partitions_B, num_partitions, handles.quad_source_points,handles.directional_points);
 
 for i = 1:length(normals_alt)
     for j = 1:length(normals_alt{i})
         for k = 1:length(normals_alt{i}{j})        
             point_1 = handles.partitions_alt{i}{j}(k,:);
             point_2 = 6*normals_alt{i}{j}(k,:) + point_1;
+            
             plot([point_1(1) point_2(1)],[point_1(2) point_2(2)],'-g')
         end
     end
