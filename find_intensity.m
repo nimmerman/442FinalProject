@@ -10,7 +10,11 @@ function [ intensitys ] = find_intensitys(Normals, Points, num_partitions, Im)
 % For every boundry there are normals and points   
 assert(size(Normals,1) == size(Points,1));
 intensitys = cell(1,numel(Normals));
-Im = im2double(Im);
+Im = rgb2gray(im2double(Im));
+% disp('image size:');
+% size(Im)
+% disp('image ????:');
+% Im(1,1)
 for boundry = 1:length(Normals)
     currentPatchNormals = Normals{boundry};
     currentPatchPoints = Points{boundry};

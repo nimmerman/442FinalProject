@@ -49,12 +49,12 @@ for curr_bound = 1:length(parted_bounds)
             m = -1.0/(2*a*point(1) + b);
             normal = [1 m]/norm([1 m]);
             
-%             normal_point = point + normal;
-%             reverse_normal_point = point - normal;
-%             if norm(normal_point - directional_point) <...
-%                 norm(reverse_normal_point - directional_point)
-%                 normal = -normal;
-%             end
+            normal_point = point + normal;
+            reverse_normal_point = point - normal;
+            if norm(normal_point - directional_point) <...
+                norm(reverse_normal_point - directional_point)
+                normal = -normal;
+            end
             
             M(r0+j,c_x:c_y) = normal;
 

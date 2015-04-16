@@ -125,7 +125,7 @@ function finishboundaries_Callback(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 handles.h = 0;
-num_partitions = 3;
+num_partitions = 8;
 handles.lambda = 10;
 %now partition boundaries
 if ~exist('handles.partitions_B')
@@ -135,7 +135,7 @@ end
 fprintf('Number of points in boundary: %d\n', length(handles.boundaries{1}));
 original_axes = [get(gca,'XLim') get(gca,'YLim')];
 handles.quad_source_points = cell(1,length(handles.boundaries));
-handles.directional_points = zeros(length(handles.boundaries),2);
+handles.points_on_objects = zeros(length(handles.boundaries),2);
 
 for curr_boundary = 1:length(handles.partitions_alt)
     
@@ -145,20 +145,18 @@ for curr_boundary = 1:length(handles.partitions_alt)
     max_y = -inf;
     
     for curr_partition = 1:length(handles.partitions_alt{curr_boundary})
-        x = handles.partitions_alt{curr_boundary}{curr_partition}(:,1);
-        y = handles.partitions_alt{curr_boundary}{curr_partition}(:,2);
-         plot(x,y,'go');
+        x_part = handles.partitions_alt{curr_boundary}{curr_partition}(:,1);
+        y_part = handles.partitions_alt{curr_boundary}{curr_partition}(:,2);
+         plot(x_part,y_part,'go');
          
          limit = 10;
-         axis([min(x) - limit, max(x) + limit, min(y) - limit, max(y) + limit]);
+         axis([min(x_part) - limit, max(x_part) + limit, min(y_part) - limit, max(y_part) + limit]);
          
-         min_x = min(min(x),min_x);
-         min_y = min(min(y),min_y);
-         max_x = max(max(x),max_x);
-         max_y = max(max(y),max_y);
-         
-         
-         
+         min_x = min(min(x_part),min_x);
+         min_y = min(min(y_part),min_y);
+         max_x = max(max(x_part),max_x);
+         max_y = max(max(y_part),max_y);
+
          point_a = impoint();
          point_b = impoint();
          point_c = impoint();
@@ -173,24 +171,26 @@ for curr_boundary = 1:length(handles.partitions_alt)
          delete(point_b);
          delete(point_c);
                  
-         plot(x,y,'ro');
+         plot(x_part,y_part,'ro');
     end
     
     axis([min_x,max_x,min_y,max_y]);
     p = impoint();
-    handles.directional_points(curr_boundary,:) = p.getPosition();
+    handles.points_on_objects(curr_boundary,:) = p.getPosition();
     delete(p);
 end
 axis(original_axes);
 
-[Norms,normals_alt] = findNormals(handles.partitions_B, num_partitions, handles.quad_source_points,handles.directional_points);
+[Norms,normals_alt] = findNormals(handles.partitions_B, num_partitions, handles.quad_source_points,handles.points_on_objects);
 handles.normals = Norms;
 
+% Plotting the normal
+normal_mult = 6;
 for i = 1:length(normals_alt)
     for j = 1:length(normals_alt{i})
         for k = 1:length(normals_alt{i}{j})        
             point_1 = handles.partitions_alt{i}{j}(k,:);
-            point_2 = 6*normals_alt{i}{j}(k,:) + point_1;
+            point_2 = normal_mult * normals_alt{i}{j}(k,:) + point_1;
             
             plot([point_1(1) point_2(1)],[point_1(2) point_2(2)],'-g')
         end
@@ -202,7 +202,6 @@ handles.intensities = find_intensity(Norms,handles.partitions_B,num_partitions,h
 
 %get C
 handles.C_matrices = cell(length(handles.boundaries),1);
-
 for i = 1:length(handles.C_matrices)
    handles.C_matrices{i} = getC(num_partitions);
 end
@@ -223,12 +222,12 @@ for i = 1:length(handles.V_vectors)
     v = handles.V_vectors{i};
     x_comp = mean(v(1:2:end - 1));
     y_comp = mean(v(2:2:end - 1));
-    point_1 = [10 10];
-    point_2 = point_1 + 10*[x_comp y_comp];
-    plot([point_1(1)],[point_1(2)],'go')
+    source_point = handles.points_on_objects(i,:);
+    point_2 = source_point + 50*[x_comp y_comp];
+    plot([source_point(1)],[source_point(2)],'go')
     plot([point_2(1)],[point_2(2)],'ro')
 
-    plot([point_1(1) point_2(1)],[point_1(2) point_2(2)],'-y')
+    plot([source_point(1) point_2(1)],[source_point(2) point_2(2)],'-y')
     
 end
 
