@@ -203,7 +203,7 @@ for i = 1:length(normals_alt)
             point_1 = handles.partitions_alt{i}{j}(k,:);
             point_2 = normal_mult * normals_alt{i}{j}(k,:) + point_1;
             
-            handles.normal_handles{i}{j}{k} = plot([point_1(1) point_2(1)],[point_1(2) point_2(2)],'-g')
+            handles.normal_handles{i}{j}{k} = plot([point_1(1) point_2(1)],[point_1(2) point_2(2)],'-g');
             set(handles.normal_handles{i}{j}{k}, 'visible', 'off');
         end
     end
@@ -236,9 +236,9 @@ for i = 1:length(handles.V_vectors)
     y_comp = mean(v(2:2:end - 1));
     source_point = handles.points_on_objects(i,:);
     
-    direction = 1500*[x_comp,y_comp];
+    direction = 1000*[x_comp,y_comp];
     axis(gca);
-    quiver(source_point(1), source_point(2),direction(1),direction(2),0,'Color','y','LineWidth',4,'MaxHeadSize',1);
+    quiver(source_point(1), source_point(2),direction(1),direction(2),'AutoScaleFactor',2,'Color','y','LineWidth',4,'MaxHeadSize',1);
 
     angle = getAngle(source_point, source_point + direction);
     fprintf('*** \tLight direction: %d degrees south of west \t***\n', angle);
