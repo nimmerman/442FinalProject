@@ -204,6 +204,7 @@ for i = 1:length(normals_alt)
             point_2 = normal_mult * normals_alt{i}{j}(k,:) + point_1;
             
             handles.normal_handles{i}{j}{k} = plot([point_1(1) point_2(1)],[point_1(2) point_2(2)],'-g')
+            set(handles.normal_handles{i}{j}{k}, 'visible', 'off');
         end
     end
 end
