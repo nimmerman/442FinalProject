@@ -234,14 +234,14 @@ for i = 1:length(handles.V_vectors)
     x_comp = mean(v(1:2:end - 1));
     y_comp = mean(v(2:2:end - 1));
     source_point = handles.points_on_objects(i,:);
-%     plot([source_point(1)],[source_point(2)],'go')
-%     plot([point_2(1)],[point_2(2)],'ro')
-
-    %plot([source_point(1) point_2(1)],[source_point(2) point_2(2)],'-y','LineWidth',4)
+    
     direction = 1500*[x_comp,y_comp];
     axis(gca);
     quiver(source_point(1), source_point(2),direction(1),direction(2),0,'Color','y','LineWidth',4,'MaxHeadSize',1);
 
+    angle = getAngle(source_point, source_point + direction);
+    fprintf('*** \tLight direction: %d degrees south of west \t***\n', angle);
+   
 end
 
 guidata(hObject, handles); 
@@ -298,3 +298,9 @@ for i = 1:length(handles.normals_alt)
 end
 
 guidata(hObject, handles); 
+
+function [angle] = getAngle(b,a)
+    adj = a(1) - b(1);
+    hyp = norm(a - b);
+    angle = acosd(adj / hyp);
+    angle = fix(angle);
