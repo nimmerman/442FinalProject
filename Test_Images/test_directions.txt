@@ -1,0 +1,13 @@
+All angles measured south of west
+
+bike_rack_1.JPG: 119.744881 degrees 120
+bike_rack_2.JPG: 122.721235 degrees 120
+garbage_can.JPG: 89.207943 degrees 89
+lamppost_1.JPG: 121.941757 degrees 122
+lamppost_2.JPG: 114.814197 degrees 115
+lamppost_3.JPG: 58.717346 degrees 59
+meter.JPG: 97.076378 degrees 97
+nathan.JPG: 121.697149 degrees 122
+school_bus.JPG: 90.725224 degrees 91
+umbrella.JPG: 119.329702 degrees 119
+zander.JPG: 58.570434 degrees 59
