@@ -22,7 +22,7 @@ function varargout = gui(varargin)
 
 % Edit the above text to modify the response to help gui
 
-% Last Modified by GUIDE v2.5 17-Apr-2015 21:29:58
+% Last Modified by GUIDE v2.5 18-Apr-2015 15:56:21
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -234,12 +234,14 @@ for i = 1:length(handles.V_vectors)
     x_comp = mean(v(1:2:end - 1));
     y_comp = mean(v(2:2:end - 1));
     source_point = handles.points_on_objects(i,:);
-    point_2 = source_point + 50*[x_comp y_comp];
-    plot([source_point(1)],[source_point(2)],'go')
-    plot([point_2(1)],[point_2(2)],'ro')
+%     plot([source_point(1)],[source_point(2)],'go')
+%     plot([point_2(1)],[point_2(2)],'ro')
 
-    plot([source_point(1) point_2(1)],[source_point(2) point_2(2)],'-y')
-    
+    %plot([source_point(1) point_2(1)],[source_point(2) point_2(2)],'-y','LineWidth',4)
+    direction = 1500*[x_comp,y_comp];
+    axis(gca);
+    quiver(source_point(1), source_point(2),direction(1),direction(2),0,'Color','y','LineWidth',4,'MaxHeadSize',1);
+
 end
 
 guidata(hObject, handles); 
