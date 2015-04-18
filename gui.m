@@ -22,7 +22,7 @@ function varargout = gui(varargin)
 
 % Edit the above text to modify the response to help gui
 
-% Last Modified by GUIDE v2.5 14-Apr-2015 13:29:00
+% Last Modified by GUIDE v2.5 17-Apr-2015 21:29:58
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -124,6 +124,11 @@ function finishboundaries_Callback(hObject, eventdata, handles)
 % hObject    handle to finishboundaries (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
+% if ~exist('handles.boundaries')
+%     fprintf('Enter a boundry before finishing\n');
+%     return;
+% end
+
 handles.h = 0;
 num_partitions = 8;
 handles.lambda = 10;
@@ -148,6 +153,7 @@ for curr_boundary = 1:length(handles.partitions_alt)
         x_part = handles.partitions_alt{curr_boundary}{curr_partition}(:,1);
         y_part = handles.partitions_alt{curr_boundary}{curr_partition}(:,2);
          plot(x_part,y_part,'go');
+  
          
          limit = 10;
          axis([min(x_part) - limit, max(x_part) + limit, min(y_part) - limit, max(y_part) + limit]);
@@ -166,10 +172,13 @@ for curr_boundary = 1:length(handles.partitions_alt)
                                                       point_b.getPosition();
                                                       point_c.getPosition();];
          
+         neg_normal_dir = impoint();
+         handles.neg_normal_directions{curr_boundary}{curr_partition} = neg_normal_dir.getPosition();
          pause(.5);
          delete(point_a);
          delete(point_b);
          delete(point_c);
+         delete(neg_normal_dir);
                  
          plot(x_part,y_part,'ro');
     end
@@ -181,8 +190,10 @@ for curr_boundary = 1:length(handles.partitions_alt)
 end
 axis(original_axes);
 
-[Norms,normals_alt] = findNormals(handles.partitions_B, num_partitions, handles.quad_source_points,handles.points_on_objects);
+[Norms,normals_alt, quad_aprox_handles] = findNormals(handles.partitions_B, num_partitions, handles.quad_source_points, handles.neg_normal_directions);
 handles.normals = Norms;
+handles.normals_alt = normals_alt;
+handles.quad_aprox_handles = quad_aprox_handles;
 
 % Plotting the normal
 normal_mult = 6;
@@ -192,7 +203,7 @@ for i = 1:length(normals_alt)
             point_1 = handles.partitions_alt{i}{j}(k,:);
             point_2 = normal_mult * normals_alt{i}{j}(k,:) + point_1;
             
-            plot([point_1(1) point_2(1)],[point_1(2) point_2(2)],'-g')
+            handles.normal_handles{i}{j}{k} = plot([point_1(1) point_2(1)],[point_1(2) point_2(2)],'-g')
         end
     end
 end
@@ -229,6 +240,59 @@ for i = 1:length(handles.V_vectors)
 
     plot([source_point(1) point_2(1)],[source_point(2) point_2(2)],'-y')
     
+end
+
+guidata(hObject, handles); 
+
+
+% --- Executes on button press in togglebutton1.
+function togglebutton1_Callback(hObject, eventdata, handles)
+% hObject    handle to togglebutton1 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hint: get(hObject,'Value') returns toggle state of togglebutton1
+
+state = get(hObject,'Value');
+
+for i = 1:length(handles.normals_alt)
+    for j = 1:length(handles.normals_alt{i})
+        for k = 1:length(handles.normals_alt{i}{j})        
+            if state
+                set(handles.normal_handles{i}{j}{k}, 'visible', 'on');
+            else
+                set(handles.normal_handles{i}{j}{k}, 'visible', 'off');
+            end
+        end
+    end
+end
+
+guidata(hObject, handles); 
+
+
+% --- Executes on button press in togglebutton3.
+function togglebutton3_Callback(hObject, eventdata, handles)
+% hObject    handle to togglebutton3 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hint: get(hObject,'Value') returns toggle state of togglebutton3
+state = get(hObject, 'Value');
+
+for i = 1:length(handles.normals_alt)
+    for j = 1:length(handles.normals_alt{i})
+        if state
+            set(handles.quad_aprox_handles{i}{j}, 'visible', 'on');
+        else
+            set(handles.quad_aprox_handles{i}{j}, 'visible', 'off');
+        end
+        pause()
+        if ~state
+            set(handles.quad_aprox_handles{i}{j}, 'visible', 'on');
+        else
+            set(handles.quad_aprox_handles{i}{j}, 'visible', 'off');
+        end
+    end
 end
 
 guidata(hObject, handles); 
