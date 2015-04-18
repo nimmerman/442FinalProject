@@ -272,34 +272,6 @@ end
 
 guidata(hObject, handles); 
 
-
-% --- Executes on button press in togglebutton3.
-function togglebutton3_Callback(hObject, eventdata, handles)
-% hObject    handle to togglebutton3 (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-
-% Hint: get(hObject,'Value') returns toggle state of togglebutton3
-state = get(hObject, 'Value');
-
-for i = 1:length(handles.normals_alt)
-    for j = 1:length(handles.normals_alt{i})
-        if state
-            set(handles.quad_aprox_handles{i}{j}, 'visible', 'on');
-        else
-            set(handles.quad_aprox_handles{i}{j}, 'visible', 'off');
-        end
-        pause()
-        if ~state
-            set(handles.quad_aprox_handles{i}{j}, 'visible', 'on');
-        else
-            set(handles.quad_aprox_handles{i}{j}, 'visible', 'off');
-        end
-    end
-end
-
-guidata(hObject, handles); 
-
 function [angle] = getAngle(b,a)
     adj = a(1) - b(1);
     hyp = norm(a - b);
