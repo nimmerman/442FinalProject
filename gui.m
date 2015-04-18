@@ -239,6 +239,8 @@ for i = 1:length(handles.V_vectors)
     plot([point_2(1)],[point_2(2)],'ro')
 
     plot([source_point(1) point_2(1)],[source_point(2) point_2(2)],'-y')
+    angle = getAngle(source_point, point_2);
+    fprintf('*** \tLight direction: %d degrees south of west \t***\n', angle);
     
 end
 
@@ -296,3 +298,9 @@ for i = 1:length(handles.normals_alt)
 end
 
 guidata(hObject, handles); 
+
+function [angle] = getAngle(a, b)
+    adj = a(1) - b(1)
+    hyp = norm(a - b);
+    angle = acosd(adj / hyp);
+    angle = fix(angle);
