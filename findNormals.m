@@ -1,4 +1,4 @@
-function [ Norms, normals_alt ] = findNormals(parted_bounds, num_partitions, source_points, directional_points)
+function [ Norms, normals_alt, quad_aprox_handles] = findNormals(parted_bounds, num_partitions, source_points, directional_points)
 %FINDNORMALS - This function finds the normals of points on a given
 %boundary
 %INPUT - parted_bounds: 
@@ -23,14 +23,16 @@ for curr_bound = 1:length(parted_bounds)
         p1 = points_i(1,:);
         p2 = points_i(2,:);
         p3 = points_i(3,:);
-        directional_point = directional_points(curr_bound);
+        directional_point = directional_points{curr_bound}{i};
         
         [a,b,c] = quadratic_coefs(p1,p2,p3);
         
         X = [0:0.1:151];
         Y = a*X.^2 + b*X + c;
         
-        %plot(X, Y, '-b');
+        h = plot(X, Y, '-b');
+        set(h, 'visible', 'off');
+        quad_aprox_handles{curr_bound}{i} = h;
         
         c_x = 2*i - 1;
         c_y = 2*i;
@@ -40,11 +42,7 @@ for curr_bound = 1:length(parted_bounds)
         
         part_normals = [];
 
-            
-            
         for j = 1:points_per_part
-
-            
             point = bound(r0+j,c_x:c_y);
             m = -1.0/(2*a*point(1) + b);
             normal = [1 m]/norm([1 m]);
@@ -67,6 +65,4 @@ for curr_bound = 1:length(parted_bounds)
     Norms{curr_bound} = M;
     normals_alt{curr_bound} = normals;
 end
-
-
 end
