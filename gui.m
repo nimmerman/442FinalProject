@@ -22,7 +22,7 @@ function varargout = gui(varargin)
 
 % Edit the above text to modify the response to help gui
 
-% Last Modified by GUIDE v2.5 18-Apr-2015 15:56:21
+% Last Modified by GUIDE v2.5 19-Apr-2015 15:50:31
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -112,7 +112,8 @@ end
 delete(handles.h);
 
 hold on;
-plot(X,Y,'ro-');
+b = plot(X,Y,'ro-');
+handles.boundaries_handles{count} = b;
 
 count = count + 1;
 
@@ -152,7 +153,7 @@ for curr_boundary = 1:length(handles.partitions_alt)
     for curr_partition = 1:length(handles.partitions_alt{curr_boundary})
         x_part = handles.partitions_alt{curr_boundary}{curr_partition}(:,1);
         y_part = handles.partitions_alt{curr_boundary}{curr_partition}(:,2);
-         plot(x_part,y_part,'go');
+        green = plot(x_part,y_part,'go');
   
          
          limit = 10;
@@ -180,7 +181,7 @@ for curr_boundary = 1:length(handles.partitions_alt)
          delete(point_c);
          delete(neg_normal_dir);
                  
-         plot(x_part,y_part,'ro');
+        set(green, 'visible', 'off');
     end
     
     axis([min_x,max_x,min_y,max_y]);
@@ -189,6 +190,8 @@ for curr_boundary = 1:length(handles.partitions_alt)
     delete(p);
 end
 axis(original_axes);
+
+toggle_boundaries(handles,0);
 
 [Norms,normals_alt, quad_aprox_handles] = findNormals(handles.partitions_B, num_partitions, handles.quad_source_points, handles.neg_normal_directions);
 handles.normals = Norms;
@@ -277,3 +280,27 @@ function [angle] = getAngle(dir)
     hyp = norm(dir);
     angle = acosd(adj / hyp);
     angle = round(angle);
+
+
+% --- Executes on button press in togglebutton4.
+function togglebutton4_Callback(hObject, eventdata, handles)
+% hObject    handle to togglebutton4 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hint: get(hObject,'Value') returns toggle state of togglebutton4
+
+state = get(hObject,'Value');
+toggle_boundaries(handles,state);
+guidata(hObject, handles); 
+
+
+function [outputs] = toggle_boundaries(handles, state)
+for i = 1:length(handles.boundaries_handles)
+    b = handles.boundaries_handles{i};
+    if state
+        set(b, 'visible', 'on');
+    else
+        set(b, 'visible', 'off');
+    end
+end
