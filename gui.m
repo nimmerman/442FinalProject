@@ -236,9 +236,9 @@ for i = 1:length(handles.V_vectors)
     y_comp = mean(v(2:2:end - 1));
     source_point = handles.points_on_objects(i,:);
     
-    direction = [x_comp,y_comp];
+    direction = [x_comp,y_comp]/norm([x_comp y_comp]);
     axis(gca);
-    quiver(source_point(1), source_point(2),direction(1),direction(2),'AutoScaleFactor',2500,'Color','y','LineWidth',4,'MaxHeadSize',1);
+    quiver(source_point(1), source_point(2),direction(1),direction(2),'AutoScaleFactor',3,'Color','y','LineWidth',4,'MaxHeadSize',1);
 
     angle = getAngle(direction);
     fprintf('*** \tLight direction: %d degrees south of west \t***\n', angle);
