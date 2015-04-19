@@ -196,7 +196,7 @@ handles.normals_alt = normals_alt;
 handles.quad_aprox_handles = quad_aprox_handles;
 
 % Plotting the normal
-normal_mult = 6;
+normal_mult = 100;
 for i = 1:length(normals_alt)
     for j = 1:length(normals_alt{i})
         for k = 1:length(normals_alt{i}{j})        
@@ -236,11 +236,11 @@ for i = 1:length(handles.V_vectors)
     y_comp = mean(v(2:2:end - 1));
     source_point = handles.points_on_objects(i,:);
     
-    direction = 1000*[x_comp,y_comp];
+    direction = [x_comp,y_comp];
     axis(gca);
-    quiver(source_point(1), source_point(2),direction(1),direction(2),'AutoScaleFactor',2,'Color','y','LineWidth',4,'MaxHeadSize',1);
+    quiver(source_point(1), source_point(2),direction(1),direction(2),'AutoScaleFactor',2500,'Color','y','LineWidth',4,'MaxHeadSize',1);
 
-    angle = getAngle(source_point, source_point + direction);
+    angle = getAngle(direction);
     fprintf('*** \tLight direction: %d degrees south of west \t***\n', angle);
    
 end
@@ -272,8 +272,8 @@ end
 
 guidata(hObject, handles); 
 
-function [angle] = getAngle(b,a)
-    adj = a(1) - b(1);
-    hyp = norm(a - b);
+function [angle] = getAngle(dir)
+    adj = dir(1);
+    hyp = norm(dir);
     angle = acosd(adj / hyp);
-    angle = fix(angle);
+    angle = round(angle);
