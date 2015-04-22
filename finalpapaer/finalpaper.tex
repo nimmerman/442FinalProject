@@ -51,9 +51,12 @@ Ann Arbor, Michigan\\
 %%%%%%%%% BODY TEXT
 \section{Introduction}
 
-
+With the advent of software tools such as Photoshop and Gimp, it is becoming increasingly simple to doctor and create fake images. One method of doctoring images is to create a composite image out of existing source images. Since composite images are difficult to detect for the common person, we hope to create a tool that enables users to determine composite images.
 %------------------------------------------------------------------------
 \section{Approach}
+
+It is often difficult to make the light direction throughout the entirety of composite images consistent. This fact can be leveraged to detect whether even well-stitched images are fake. By analyzing the light direction of different surfaces within the image, one can detect whether or not the two surfaces came from the same original image. An algorithm for detecting such inconsistencies has been outlined in Johnson and Farid's paper, \emph{Exposing digital forgeries by detecting inconsistencies in lighting}. We shall attempt our own implementation of this algorithm and measure our implementation based on accuracy.
+
 
 %------------------------------------------------------------------------
 \section{Implementation}
