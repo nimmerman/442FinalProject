@@ -77,6 +77,30 @@ We cannot take a direct approach to solving for the light directions; we have an
 %------------------------------------------------------------------------
 \section{Implementation}
 
+No 3\textsuperscript{rd} party systems or software was used. All components of our project including, the back end and front end GUI (graphic user interface), were implemented by us. We chose to implement our tool in matlab due to out familiarity with matlab and matlab's efficiency with images.
+
+\subsection{Back End}
+
+\subsection{Front End GUI}
+Since many aspects of our tools requires user input, we decided to make a matlab GUI to provided a pleasant experience for the user. The following are the steps that the user would take when using our tool. 
+
+First, start the tool with the desired image as a command line argument. 
+
+Second, add the occluding boundaries that the user wishes to determine the light direction of. To do this first we recommend zooming in on the occluding boundary by using the magnifying glass from the tool bar. Then click the button \emph{Add Boundary} and draw as close as possible to the occluding boundary while remaining on the actual object. The user should use the button \emph{Add Boundary} for each boundary that they wish to add. 
+
+Third, once the user is done adding boundaries, the user should click the button \emph{Finish Boundaries}. In this phase of the tool, the user will be entering points that are used to estimate a quadric curve to fit to the boundaries that they user added. The GUI will zoom in on small patches of a boundary, the user should then enter three points that approximate the small patch. Then the user should enter an additional point that is on the object while remaining close to the patch. Once these four points are entered the GUI will zoom in on the next patch and the user should repeat the process until the user has entered four points for each patch on a boundary. 
+
+Then the GUI will zoom out to reveal the entire boundary and the user should enter one point on the object where the user would like the estimated light direction to be plotted. This process will repeat for each boundary that the user added.
+
+Once the user has completed entering all of these points, the GUI will plot the estimate light directions for each boundary at the locations that the user specified.
+
+
+% \begin{figure}[]
+% \centering
+%  \includegraphics[scale=0.35]{gui_pic.png}
+% \caption{Current State of our GUI, user selected boundaries in red}
+% \label{GUI1}
+% \end{figure}
 %------------------------------------------------------------------------
 \section{Experiments}
 
