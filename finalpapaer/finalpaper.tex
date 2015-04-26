@@ -58,17 +58,19 @@ It is often difficult to make the light direction throughout the entirety of com
 \section{Approach}
 
 The equation that we are making use of to estimate the light directions is \[I(x,y) = R\times (\vec{N}(x,y)\cdot \vec{L}) + A\]
-where I(x,y) is the intensity at the point (x,y), R is the reflectance term (a constant), and N(x,y) is the unit vector normal to the boundary at the point (x,y). This equation assumes an infinite light source.
+where $I(x,y)$ is the intensity at the point $(x,y)$, $R$ is the reflectance term (a constant), and $N(x,y)$ is the unit vector normal to the boundary at the point $(x,y)$. This equation assumes an infinite light source.
 
-A limitation of this equation is that it requires that the reflectance of the surface is known and that it is constant. By assuming that the reflectance equals 1, a vector for the light direction can be obtained with an unknown scale factor. To solve the problem of constant reflectance over an object boundary, we split the user entered boundaries into n partitions, and assume that each of these partitions has constant reflectance. In our implementation, we use n = 8.
+A limitation of this equation is that it requires that the reflectance of the surface is known and that it is constant. By assuming that the reflectance equals 1, a vector for the light direction can be obtained with an unknown scale factor. However, this still requires that the object has constant reflectance. As the paper suggests, we are able to relax this constraint by partitioning the boundary into $n$ patches, and assume that each of these patches has constant reflectance. The underlying assumption here is that more smaller, local patches of an object are likely to be most uniform, and therefore are likely to have a more constant reflectance than the entire object. In our implementation, we use $n$ = 8, which the authors of the paper recommend.
 
 \subsection{Finding the Normal Vectors}
-The reason we must estimate points that lie on a (occluding) boundary is that we are only able to estimate the normal vectors at the occluding boundary for a given object. We know that the z-component of the normal vector at the occluding boundary of an object is 0. This makes it much easier to estimate the x and y components. For each partition, we fit a quadratic curve using three points that the user enters. The user enters a fourth point for each patch as an indicator to the general direction of the normal vectors. We then use mathematical techniques to estimate the normal vector of the quadratic curve at the x coordinate of each point in the given partition.
+The algorithm assumes that the boundaries are given, but the equation we are using requires that the vectors normal to the object boundaries are calculated. The reason we do not consider an arbitrary point on an object is that we cannot easily estimate the normal vectors at these points. We already know that the z-component of the vector is equal to 0 on the object boundary, and the x and y components point in the same direction in both the scene and image coordinates at these points, making them very easy to estimate with no object-level knowledge or 3D information. We estimate a normal vector for each point given in every partition. But the boundary is given as a set of points, and it is clearly impossible to estimate the normal vectors of discrete, non-continuous function. To solve this, we begin by fitting a quadratic curve $y = p(x)$. The curve is fit to three user-selected points that lie near the boundary partition. We then observe each point $(a,b)$ in the partition, and find a unit-vector perpendicular to the quadratic curve at the point $(a,p(a))$. 
+
+At each partition, the user must indicate a fourth point that lies on the object to indicate which direction the normal vectors should point. If the normal vector that we calculate points away from this point, we simply scale it by a factor of -1.
 
 \subsection{Estimating intensities at the occluding boundary}
 We need to estimate the intensities of the pixels at the occluding boundary because the pixels are not in the image. For a single point along the boundary, this is accomplished by sampling $n$ pixels along the direction opposite of the normal vector and fitting an exponential curve to these values, namely \[I(x) = ax^{b}\] where x is the position along the negative normal direction and $I(0)$ is the intensity at the occluding boundary. We used $n = 15$.
 
-We use least-squares estimation on $log(I(x))$ to determine the parameters $a$ and $b$. The intensity at the occluding boundary is then calculated by evaluating $I(0)$.
+We use least-squares estimation on $\log(I(x))$ to determine the parameters $a$ and $b$. The intensity at the occluding boundary is then calculated by evaluating $I(0)$.
 
 \subsection{Least Squares Solution}
 We cannot take a direct approach to solving for the light directions; we have an unknown ambient term and several points in each partition segment. To overcome this, the paper reformulates the problem in such a way that it is possible to apply least squares estimation to solve for the unknowns. After this is complete, we estimate the overall light direction on the object by averaging the light direction of each segment in the partition.
@@ -77,12 +79,12 @@ We cannot take a direct approach to solving for the light directions; we have an
 %------------------------------------------------------------------------
 \section{Implementation}
 
-No 3\textsuperscript{rd} party systems or software was used. All components of our project including, the back end and front end GUI (graphic user interface), were implemented by us. We chose to implement our tool in matlab due to out familiarity with matlab and matlab's efficiency with images.
+No third-party software or systems were used. All components of our project, including the back end and front end GUI (graphic user interface), were implemented from scratch. We chose to implement our tool in MATLAB due to our familiarity with the software and its built-in linear algebra and image manipulation functionality.
 
 \subsection{Back End}
 
 \subsection{Front End GUI}
-Since many aspects of our tools requires user input, we decided to make a matlab GUI to provided a pleasant experience for the user. The following are the steps that the user would take when using our tool. 
+Since many aspects of our tool requires user input, we decided to make a MATLAB GUI to provided a pleasant experience for the user. The following are the steps that the user would take when using our tool. 
 
 First, start the tool with the desired image as a command line argument. 
 
