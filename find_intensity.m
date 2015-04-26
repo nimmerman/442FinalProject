@@ -10,7 +10,10 @@ function [ intensitys ] = find_intensitys(Normals, Points, num_partitions, Im)
 % For every boundry there are normals and points   
 assert(size(Normals,1) == size(Points,1));
 intensitys = cell(1,numel(Normals));
-Im = rgb2gray(im2double(Im));
+Im = im2double(Im);
+if size(Im,2) == 3
+    Im = rgb2gray(Im);
+end
 % disp('image size:');
 % size(Im)
 % disp('image ????:');
@@ -64,12 +67,17 @@ for i = 1:15
     if ~inBounds(newPointx, newPointy, Im)
         break;
     end
-
+    
     PofT = [PofT; log(Im(newPointy, newPointx))];
+    
+    
     xvalues = [xvalues; 1 log(i)];
 end
 % PofT
 % xvalues
+PofT(isnan(PofT)) = 0;
+PofT(PofT < 0) = 0;
+
 params = xvalues \ PofT;
 Alpha = exp(params(1));
 Beta = params(2);
