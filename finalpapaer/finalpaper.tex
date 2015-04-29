@@ -276,13 +276,13 @@ Figure~\ref{img:golfFake} is an example of a composite image that our tool perfo
 \end{figure}
 
 \subsection{Error Analysis}
-Our tool requires a significant amount of user input which we believe is our major source of error. If the user does not choose points or draw the boundary carefully, the results may be significantly skewed. We sometimes had to try multiple times to achieve positive results on a single image.
+Our tool requires a significant amount of user input which we believe is our major source of error. If the user does not choose points or draw the boundary carefully, the results may be significantly skewed. We sometimes had to try multiple times to achieve positive results on a single image. Another source of error might be jpeg compression artifacts. We believe best results would be obtained with an uncompressed image format, because compression artifacts might significantly obscure the pixels near boundaries. Further, we make a Lambertian assumption, however, this is not always accurate for many objects.
 
 %------------------------------------------------------------------------
 \section{Conclusion and Future Work}
 By implementing the algorithm in Johnson and Farid's paper, \emph{Exposing digital forgeries by detecting inconsistencies in lighting}, we were able to produce robust estimates of light directions and detect composite images. On images that we took outside on a sunny day we were able to achieve average error of 7.5\textdegree. Based on this result we would classify an image as a forgery if the image has two light directions with a discrepancy of over 25\textdegree. 
  
-Light directions are often a reliable way to detect forgeries, however it is somewhat limited. Many images are not well suited for this kind of detection, whether they lack suitable surfaces or the user simply does not know what he or she is looking for. In order to make use of the tool, the user must select boundaries on portions of the image that are suspected of being stitched together. We hope to incorporate other forgery detection algorithms that would account for more conditions to create an even more robust tool.
+Light directions are often a reliable way to detect forgeries, however, the method is somewhat limited. Many images are not well-suited for this kind of detection, whether they lack suitable surfaces or the user simply does not know what he or she is looking for. In order to make use of the tool, the user must select boundaries on portions of the image that are suspected of being stitched together. We hope to incorporate other forgery detection algorithms that would account for more conditions to create an even more robust tool.
 
 In addition, we hope to remove many of the user input elements of the algorithm by finding a way to algorithmically obtaining the occluding boundaries. We also hope to implement an extended version that works in local lighting.
 %--------------------------------	----------------------------------------
