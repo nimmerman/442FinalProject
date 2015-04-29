@@ -86,7 +86,7 @@ $D_k =
 N_x(x^{(1)}_1,y^{(1)}_1) & N_y(x^{(1)}_1,y^{(1)}_1) \\
 	\vdots & \vdots\\
 	N_x(x^{(1)}_p,y^{(1)}_p) & N_y(x^{(1)}_p,y^{(1)}_p) \\
-	\end{pmatrix}$
+	\end{pmatrix}$,
 
 	
 $M = 
@@ -95,7 +95,7 @@ $M =
 	0 & D_2 &\cdots & 0 & 1\\
  	\vdots & \vdots & \ddots & \vdots& \vdots\\
 	0 & 0 & \cdots & D_n & 1\\
-	\end{pmatrix}$
+	\end{pmatrix}$,
 	
 	
 $C = 
@@ -105,7 +105,7 @@ $C =
 	\vdots & & & & \ddots & & & & & \vdots\\
 	0 & 0 & 0 & 0 & \cdots & -1 & 0 & 1 & 0 & 0\\
 	0 & 0 & 0 & 0 & \cdots & 0 & -1 & 0 & 1 & 0\\
-	\end{pmatrix}$
+	\end{pmatrix}$,
 	
 $\vec{b} =
 	\begin{pmatrix}
@@ -116,9 +116,7 @@ $\vec{b} =
 	I(x^{(n)}_1,y^{(n)}_1)\\
 	\vdots\\
 	I(x^{(n)}_p,y^{(n)}_p)\\
-	\end{pmatrix}$
-
-
+	\end{pmatrix}$,
 $\vec{v} = 
 	\begin{pmatrix}
 	L^{(1)}_x\\
@@ -143,18 +141,14 @@ No third-party software or systems were used. All components of our project, inc
 \subsection{Back End}
 
 \subsection{Front End GUI}
-Since many aspects of our tool requires user input, we decided to make a MATLAB GUI to provided a pleasant experience for the user. The following are the steps that the user would take when using our tool. 
-
-First, start the tool with the desired image as a command line argument. 
-
-Second, add the occluding boundaries that the user wishes to determine the light direction of. To do this first we recommend zooming in on the occluding boundary by using the magnifying glass from the tool bar. Then click the button \emph{Add Boundary} and draw as close as possible to the occluding boundary while remaining on the actual object. The user should use the button \emph{Add Boundary} for each boundary that they wish to add. 
-
-Third, once the user is done adding boundaries, the user should click the button \emph{Finish Boundaries}. In this phase of the tool, the user will be entering points that are used to estimate a quadric curve to fit to the boundaries that they user added. The GUI will zoom in on small patches of a boundary, the user should then enter three points that approximate the small patch. Then the user should enter an additional point that is on the object while remaining close to the patch. Once these four points are entered the GUI will zoom in on the next patch and the user should repeat the process until the user has entered four points for each patch on a boundary. 
-
-Then the GUI will zoom out to reveal the entire boundary and the user should enter one point on the object where the user would like the estimated light direction to be plotted. This process will repeat for each boundary that the user added.
-
-Once the user has completed entering all of these points, the GUI will plot the estimate light directions for each boundary at the locations that the user specified.
-
+Since many aspects of our tool requires user input, we decided to make a MATLAB GUI to provided a pleasant experience for the user. Below are the steps the user must take to enter the boundary data:
+\begin{itemize}
+\item The user opens the tool, entering the image path as a command-line argument.
+\item The user draws the occluding boundaries at which he or she wishes to determine the light direction. For best results, we recommend using the magnifying glass to zoom in on boundary locations before drawing. The drawings do not need to be perfect, but they should be quite close for best results. To initiate the drawing tool, the user must select \emph{Add Boundary}. This process must be repeated for each boundary desired. There is no limit to the number of boundaries that can be drawn.
+\item Once the user is done adding all desired boundaries, he or she must select \emph{Finish Boundaries}. In this phase of the tool, the user will be entering points that are used to estimate a quadric curve to fit to the boundaries that they user added. The GUI zooms in on small patches of a boundary, where the user selects three points that might approximate the small patch. After each set of three points, the user must select a point on the object itself. Once these four points are entered, the GUI zooms in on the next patch. This is repeated for all patches of all boundaries.
+\item The GUI zooms out to reveal the entire boundary and the user selects on the object where the arrow indicating the light direction will be plotted. This process repeats for each boundary that the user added.
+\item The GUI plots the estimated light directions for each boundary at the locations that the user specified
+\end{itemize}
 The user also has the ability to view the entered boundaries and the estimated normal vectors by toggling the buttons \emph{Toggle Boundaries} and \emph{Toggle Normal Vectors} respectively. Figure ~\ref{fig:gui}.
 \begin{figure}[]
 	\centering
@@ -165,7 +159,7 @@ The user also has the ability to view the entered boundaries and the estimated n
 %------------------------------------------------------------------------
 \section{Experiments}
 We performed a number of experiments to test the performance of our tool. These experiments included both testing the light direction of calculated in images for which a ground truth has been obtained, and testing the tool on known composits, with an emphasis on the former.
-\subsection{Experiments with a known ground truth}
+
 \begin{figure}[h]
 \center
 \includegraphics[scale = 0.3]{nathan.png}
@@ -181,7 +175,7 @@ We performed a number of experiments to test the performance of our tool. These 
 
 
 
-IUFSLKDJNFLIUEJKSND are examples of images that we tested our tool on. The ground truth for the light direction was estimated by holding a board with a protruding rod parallel to the image plane and measuring the direction of the shadow cast by the sun. This was then compared to the output of our tool. A brief summary of our results:
+Above are examples of images that we tested our tool on. The ground truth for the light direction was estimated by holding a board with a protruding rod parallel to the image plane and measuring the direction of the shadow cast by the sun. This was then compared to the output of our tool. A brief summary of our results:
 \\\\
 \begin{tabular}{c | c | c | c }
 
@@ -195,10 +189,16 @@ Image & Est. Direction & Ground Truth & Diff.\\
 (f) & 126\textdegree & 119\textdegree & 7\textdegree\\
 \end{tabular}
 \\\\
-Angles are measured South of West.
+Angles are measured South of West.\\\\
+The averge error for these images is 7.5\textdegree. We find that different kinds of surfaces yield different results. Typically, shirt sleeves, spherical objects, and fairly solid-colored objects give the best results. The algorithm makes a Lambertian assumption, so the less spectral reflection the better the tool performs (but sometimes surprisingly good results are obtained with shiny objects).
+
+Image (g) is an example of a composite image that our tool performs quite well with. An image of a golf ball has been placed on the bulb on the left, and the tool calculates a light direction discrepancy of 69\textdegree, strongly (and correctly) indicating a forgery.ADD IMAGE (G) (should be close up of golf ball lamp with arrows that we used in the poster)
+
+\subsection{Error Analysis}
+
 %------------------------------------------------------------------------
 \section{Conclusion}
-
+Light directions are often a reliable way to detect forgeries, however it is somewhat limited. Many images are not well suited for this kind of detection, whether they lack suitable surfaces or the user simply does not know what he or she is looking for. In order to makes use of the tool, the user must select boundaries on portions of the image that are suspected of being stitched together. 
 %--------------------------------	----------------------------------------
 \section{References}
 
