@@ -4,10 +4,11 @@
 \usepackage{times}
 \usepackage{epsfig}
 \usepackage{graphicx}
-\usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{enumerate}
+\usepackage{textcomp}
 \usepackage{graphicx}
+\usepackage{mathtools}
 \graphicspath{ {images/} }
 
 % Include other packages here, before hyperref.
@@ -76,11 +77,22 @@ We use least-squares estimation on $\log(I(x))$ to determine the parameters $a$ 
 \subsection{Least Squares Solution}
 We cannot take a direct approach to solving for the light directions; we have an unknown ambient term and several points in each partition segment. To overcome this, the paper reformulates the problem in such a way that it is possible to apply least squares estimation to solve for the unknowns. After this is complete, we estimate the overall light direction on the object by averaging the light direction of each segment in the partition.
 
+We use \[\vec{v} = (M^TM + \lambda C^TC)^+M^T\vec{b}\] where $A^+$ would denote the pseudo-inverse of $A$. This is the closed form equation for finding the least-squares estimate of the light directions.
+
+
+$(x^{(i)}_j,y^{(i)}_j)$ is the $j$th point of the $i$th partition for a particular boundary. There are $n$ partitions, each of which contains $p$ points.
+
+$M = 
+
+	\begin{pmatrix}
+	
+	
+
 
 %------------------------------------------------------------------------
 \section{Implementation}
 
-No third-party software or systems were used. All components of our project, including the back end and front end GUI (graphic user interface), were implemented from scratch. We chose to implement our tool in MATLAB due to our familiarity with the software and its built-in linear algebra and image manipulation functionality.
+No third-party software or systems were used. All components of our project, including the back end and front end GUI (graphic user interface), were implemented from scratch (other than the built-in functions that MATLAB provides). We chose to implement our tool in MATLAB due to our familiarity with the software and its built-in linear algebra and image manipulation functionality.
 
 \subsection{Back End}
 
@@ -112,14 +124,32 @@ We performed a number of experiments to test the performance of our tool. These 
 \center
 \includegraphics[scale = 0.3]{nathan.png}
 \includegraphics[scale = 0.3]{zander.png}
-\end{figure}
-\begin{figure}[h]
-\center
+(a), (b)\\
 \includegraphics[scale = 0.3]{lamppost.png}
+\includegraphics[scale = 0.374]{bike_rack_1.png}
+(c),(d)\\
+\includegraphics[scale = 0.35]{garbage_can.png}
+\includegraphics[scale = 0.35]{nathan_2.png}
+(e),(f)
 \end{figure}
 
-Blah blah blah. Blah oai slkdjn.a;ksjdntruth has been obtained, and testing the tool on known composits, with an emphasis on the former.truth has been obtained, and testing the tool on known composits, with an emphasis on the former.truth has been obtained, and testing the tool on known composits, with an emphasis on the former.
 
+
+IUFSLKDJNFLIUEJKSND are examples of images that we tested our tool on. The ground truth for the light direction was estimated by holding a board with a protruding rod parallel to the image plane and measuring the direction of the shadow cast by the sun. This was then compared to the output of our tool. A brief summary of our results:
+\\\\
+\begin{tabular}{c | c | c | c }
+
+Image & Est. Direction & Ground Truth & Diff.\\
+\hline
+(a) & 121\textdegree & 113\textdegree & 8\textdegree\\
+(b) & 122\textdegree & 128\textdegree & 6\textdegree\\
+(c) & 115\textdegree & 120\textdegree & 5\textdegree\\
+(d) & 133\textdegree & 120\textdegree & 13\textdegree\\
+(e) & 95\textdegree & 89\textdegree & 6\textdegree\\
+(f) & 126\textdegree & 119\textdegree & 7\textdegree\\
+\end{tabular}
+\\\\
+Angles are measured South of West.
 %------------------------------------------------------------------------
 \section{Conclusion}
 
