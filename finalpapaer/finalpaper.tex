@@ -77,16 +77,62 @@ We use least-squares estimation on $\log(I(x))$ to determine the parameters $a$ 
 \subsection{Least Squares Solution}
 We cannot take a direct approach to solving for the light directions; we have an unknown ambient term and several points in each partition segment. To overcome this, the paper reformulates the problem in such a way that it is possible to apply least squares estimation to solve for the unknowns. After this is complete, we estimate the overall light direction on the object by averaging the light direction of each segment in the partition.
 
-We use \[\vec{v} = (M^TM + \lambda C^TC)^+M^T\vec{b}\] where $A^+$ would denote the pseudo-inverse of $A$. This is the closed form equation for finding the least-squares estimate of the light directions.
-
+The paper reformulates the problem by first organizing the data:
 
 $(x^{(i)}_j,y^{(i)}_j)$ is the $j$th point of the $i$th partition for a particular boundary. There are $n$ partitions, each of which contains $p$ points.
 
-$M = 
+$D_k = 
+\begin{pmatrix}
+N_x(x^{(1)}_1,y^{(1)}_1) & N_y(x^{(1)}_1,y^{(1)}_1) \\
+	\vdots & \vdots\\
+	N_x(x^{(1)}_p,y^{(1)}_p) & N_y(x^{(1)}_p,y^{(1)}_p) \\
+	\end{pmatrix}$
 
+	
+$M = 
 	\begin{pmatrix}
+	D_1 & 0 &\cdots & 0 & 1\\
+	0 & D_2 &\cdots & 0 & 1\\
+ 	\vdots & \vdots & \ddots & \vdots& \vdots\\
+	0 & 0 & \cdots & D_n & 1\\
+	\end{pmatrix}$
 	
 	
+$C = 
+	\begin{pmatrix}
+	-1 & 0 & 1 & 0 & \cdots & 0 & 0 & 0 & 0 & 0\\
+	0 & -1 & 0 & 1 & \cdots & 0 & 0 & 0 & 0 & 0\\
+	\vdots & & & & \ddots & & & & & \vdots\\
+	0 & 0 & 0 & 0 & \cdots & -1 & 0 & 1 & 0 & 0\\
+	0 & 0 & 0 & 0 & \cdots & 0 & -1 & 0 & 1 & 0\\
+	\end{pmatrix}$
+	
+$\vec{b} =
+	\begin{pmatrix}
+	I(x^{(1)}_1,y^{(1)}_1)\\
+	\vdots\\
+	I(x^{(1)}_p,y^{(1)}_p)\\
+	\vdots\\
+	I(x^{(n)}_1,y^{(n)}_1)\\
+	\vdots\\
+	I(x^{(n)}_p,y^{(n)}_p)\\
+	\end{pmatrix}$
+
+
+$\vec{v} = 
+	\begin{pmatrix}
+	L^{(1)}_x\\
+	L^{(1)}_y\\
+	\vdots\\
+	L^{(n)}_x\\
+	L^{(n)}_y\\
+	A\\
+	\end{pmatrix}$
+	
+$\vec{v}$ is the quantity we are trying to find. To do so, we use this closed form of the least squares optimization:
+
+\[\vec{v} = (M^TM + \lambda C^TC)^+M^T\vec{b}\] where $A^+$ would denote the pseudo-inverse of $A$. This is the closed form equation for finding the least-squares estimate of the light directions.
+
 
 
 %------------------------------------------------------------------------
