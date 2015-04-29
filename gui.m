@@ -231,17 +231,34 @@ for i = 1:length(handles.V_vectors)
     lambda = handles.lambda;
 
     handles.V_vectors{i} = pinv((M'*M+lambda*(C'*C)))*M'*b; 
+    v = handles.V_vectors{i};
+
+    for j = 1:floor(length(handles.V_vectors{i})/2)
+        normal = mean(normals_alt{i}{j}(1:end,:));
+        l_x = v(2*j - 1);
+        l_y = v(2*j);
+        angle = get_inner_angle(normal,[l_x l_y]);
+        if angle > 90.0
+            handles.V_vectors{i}(2*j - 1) = -v(2*j - 1);
+            handles.V_vectors{i}(2*j) = -v(2*j);
+        end
+    end
 end
+
 
 for i = 1:length(handles.V_vectors)
     v = handles.V_vectors{i};
+    
+        
+    
     x_comp = mean(v(1:2:end - 1));
     y_comp = mean(v(2:2:end - 1));
     source_point = handles.points_on_objects(i,:);
     
     direction = [x_comp,y_comp]/norm([x_comp y_comp]);
     axis(gca);
-    quiver(source_point(1), source_point(2),direction(1),direction(2),'AutoScaleFactor',3,'Color','y','LineWidth',4,'MaxHeadSize',1);
+    
+    quiver(source_point(1), source_point(2),direction(1),direction(2),'AutoScaleFactor',80,'Color','y','LineWidth',4,'MaxHeadSize',1);
 
     angle = getAngle(direction);
     fprintf('*** \tLight direction: %d degrees south of west \t***\n', angle);
@@ -304,3 +321,7 @@ for i = 1:length(handles.boundaries_handles)
         set(b, 'visible', 'off');
     end
 end
+
+function [angle] = get_inner_angle(a_vec,b_vec)
+angle = acosd(dot(a_vec,b_vec)/(norm(a_vec)*norm(b_vec)));
+

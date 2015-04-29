@@ -70,19 +70,36 @@ where $I(x,y)$ is the intensity at the point $(x,y)$, $R$ is the reflectance ter
 A limitation of this equation is that it requires that the reflectance of the surface is known and that it is constant. By assuming that the reflectance equals 1, a vector for the light direction can be obtained with an unknown scale factor. However, this still requires that the object has constant reflectance. As the paper suggests, we are able to relax this constraint by partitioning the boundary into $n$ patches, and assume that each of these patches has constant reflectance. We can assume this because small, local patches of an object are likely to be very uniform, and therefore are likely to have a more of a constant reflectance than the overall reflectance of the object. In our implementation, we use $n$ = 8, which the authors of the paper recommend.
 
 \subsection{Finding the Normal Vectors}
-To use this algorithm we need to calculate the vectors normal to the object boundaries that are assumed to be given to the algorithm. It is difficult to calculate the normal vector at an arbitrary point on the object because an arbitrary normal vector has all three directions, $x$, $y$, and $z$ as degrees of freedom. To reduce a degree of freedom and make it possible to calculate the normal vectors we constrain the algorithm to only consider occluding boundaries where the $z$ direction of the normal is known to be equal to $0$. Also at the occluding boundary, the $x$ and $y$ components of the normal vectors point in the same direction in both the scene and image coordinates at these points. This makes it possible to estimate the normal vectors without any object-level knowledge or 3D information. 
+To use this algorithm we need to calculate the vectors normal to the object boundaries that are assumed to be given to the algorithm. It is difficult to calculate the normal vector at an arbitrary point on the object because an arbitrary normal vector has three degrees of freedom: one for each component in three dimensions ($x$, $y$, and $z$). To eliminate a degree of freedom and make it possible to calculate the normal vectors, we constrain the algorithm to only consider occluding boundaries. At occluding boundaries, the vector normal to an object surface has a $z$-component of $0$. Also, at the occluding boundary, the $x$ and $y$ components of the normal vectors point in the same direction in both the scene and image coordinates. This makes it possible to estimate the normal vectors without any object-level knowledge or 3D information. 
 
-We estimate a normal vector for each point given in every partition. But the boundary is given as a set of points, and it is clearly impossible to estimate the normal vectors of discrete, non-continuous function. To solve this, we begin by fitting a quadratic curve $y = p(x)$ for each patch. The curve is fit to three user-selected points that lie near the boundary partition. We then observe each point $(a,b)$ in the partition, and find a unit-vector perpendicular to the quadratic curve at the point $(a,p(a))$. 
-\note{Zander, are we going add the math for how we do this?}
+We estimate a normal vector for each point given in every partition. The object boundary, however, is encoded as a set of points, and it is not possible to compute vectors normal to individual points. To solve this, we fit a quadratic curve $y = p(x)$ for each partition. The curve is fit to three user-selected points $(x_1,y_1), (x_2,y_2), (x_3,x_3)$ that lie near the boundary partition. This process is outlined below in detail:
+
+Given points $(x_1,y_1), (x_2,y_2), (x_3,x_3)$ that correspond to a single partition, we compute the quadratic curve by creating matrices 
+\[A = \begin{pmatrix}
+		x_1^2 & x_1 & 1\\
+		x_2^2 & x_2 & 1\\
+		x_3^2 & x_3 & 1
+	  \end{pmatrix}\]
+\[\vec{y} = \begin{pmatrix}
+		y_1\\
+		y_2\\
+		y_3\end{pmatrix}\]
+And then compute
+\[\begin{pmatrix} a\\ b\\ c\end{pmatrix} = A^{-1}\vec{y}\]
+Where \[p(x) = ax^2 + bx + c.\]
+
+The next step is to compute the vectors normal to the boundary using the quadratic function. For each point $(x,y)$ in the partition, we compute \[m = \frac{-1}{2ax + b}\]
+\[N_x(x,y) = \frac{1}{\sqrt{1 + m^2}}\]
+\[N_y(x,y) = \frac{m}{\sqrt{1 + m^2}}\]
 
 At each partition, the user must indicate a fourth point that lies on the object to indicate which direction the normal vectors should point. If the normal vector that we calculate points away from this point, we simply scale the normal vector by a factor of -1 to reverse its direction.
 
-\subsection{Estimating intensities at the occluding boundary}
+\subsection{Estimating Intensities at the Occluding Boundary}
 We need to estimate the intensities of the pixels at the occluding boundary because the pixels are not in the image. For a single point along the boundary, this is accomplished by sampling $n$ pixels along the direction opposite of the normal vector and fitting an exponential curve to these values, namely \[I(x) = ax^{b}\] where x is the position along the negative normal direction and $I(0)$ is the intensity at the occluding boundary. We used $n = 15$.
 
-We use least-squares estimation on $\log(I(x))$ to determine the parameters $a$ and $b$. The intensity at the occluding boundary is then calculated by evaluating $I(0)$.
+We use basic least-squares estimation on $\log(I(x))$ to determine the parameters $a$ and $b$. The intensity at the occluding boundary is then calculated by evaluating $I(0)$.
 
-\subsection{Least Squares Solution}
+\subsection{A Least-Squares Approach For Estimating The Light Directions}
 We cannot take a direct approach to solving for the light directions; we have an unknown ambient term and several points in each partition segment. To overcome this, the paper reformulates the problem in such a way that it is possible to apply least squares estimation to solve for the unknowns. After this is complete, we estimate the overall light direction on the object by averaging the light direction of each segment in the partition.
 
 The paper reformulates the problem by first organizing the data:
@@ -137,36 +154,36 @@ N_x(x^{(1)}_1,y^{(1)}_1) & N_y(x^{(1)}_1,y^{(1)}_1) \\
 	
 $\vec{v}$ is the quantity we are trying to find. To do so, we use this closed form of the least squares optimization:
 
-\[\vec{v} = (M^TM + \lambda C^TC)^+M^T\vec{b}\] where for a matrix $A$, $A^+$ would denote the pseudo-inverse of $A$. This is the closed form equation for finding the least-squares estimate of the light directions.
+\[\vec{v} = (M^TM + \lambda C^TC)^+M^T\vec{b}\] where for a matrix $A$, $A^+$ would denote the pseudo-inverse of $A$. This is the closed form equation for finding the least-squares estimate of the light directions. We use $\lambda = 10$, as the paper recommends (for an infinite light source).
 
 %------------------------------------------------------------------------
 \section{Implementation}
 
-No third-party software or systems were used. All components of our project, including the back end and front end GUI (graphic user interface), were implemented from scratch (other than the built-in functions that MATLAB provides). We chose to implement our tool in MATLAB due to our familiarity with the software and its built-in linear algebra and image manipulation functionality.
+No third-party software or systems were used. All components of our project, including both the back-end and front-end GUI (graphical user interface), were implemented from scratch (other than the built-in functions that MATLAB provides). We chose to implement our tool in MATLAB due to our familiarity with the software and its built-in linear algebra and image manipulation functionality.
 
-Since many aspects of our tool requires user input, we decided to make a MATLAB GUI to provided a pleasant experience for the user. Below are the steps the user must take to enter the boundary data:
+Our GUI tries to streamline the user-input phase as much as possible. The steps in using our tool are as follows:
 \begin{itemize}
 \item The user opens the tool, entering the image path as a command-line argument.
 
 \item The user draws the occluding boundaries at which he or she wishes to determine the light direction. For best results, we recommend using the magnifying glass to zoom in on boundary locations before drawing. The drawings do not need to be perfect, but they should be quite close for best results. As well, the user should be careful to remain on the object and not draw on the background. To initiate the drawing tool, the user must select \emph{Add Boundary}. This process must be repeated for each boundary desired. There is no limit to the number of boundaries that can be drawn. An example boundary can be seen in Figure~\ref{fig:gui1}.
-
-\begin{figure}[]
-\begin{center}
-	\includegraphics[width=0.9\linewidth]{gui1.png}
-\end{center}
-	\caption{Adding an occluding boundary.}
-\label{fig:gui1}
-\end{figure}
+%
+%\begin{figure}[]
+%\begin{center}
+%	\includegraphics[width=0.9\linewidth]{gui1.png}
+%\end{center}
+%	\caption{Adding an occluding boundary.}
+%\label{fig:gui1}
+%\end{figure}
 
 \item Once the user is done adding all desired boundaries, he or she must select \emph{Finish Boundaries}. In this phase of the tool, the user will be entering points that are used to estimate a quadric curve to fit to the boundaries that they user added. The GUI zooms in on small patches of a boundary, where the user selects three points that might approximate the small patch. After each set of three points, the user must select a point on the object itself. Once these four points are entered, the GUI zooms in on the next patch. This is repeated for all patches of all boundaries. An example of entering points can be seen in Figure~\ref{fig:gui2}.
 
-\begin{figure}[]
-\begin{center}
-	\includegraphics[width=0.9\linewidth]{gui2.png}
-\end{center}
-	\caption{Adding points (blue) to approximate the boundary.}
-\label{fig:gui2}
-\end{figure}
+%\begin{figure}[]
+%\begin{center}
+%	\includegraphics[width=0.9\linewidth]{gui2.png}
+%\end{center}
+%	\caption{Adding points (blue) to approximate the boundary.}
+%\label{fig:gui2}
+%\end{figure}
 
 \item The GUI zooms out to reveal the entire boundary and the user selects on the object where the arrow indicating the light direction will be plotted. This process repeats for each boundary that the user added.
 
@@ -176,58 +193,58 @@ Since many aspects of our tool requires user input, we decided to make a MATLAB 
 
 The user also has the ability to view the entered boundaries and the estimated normal vectors by toggling the buttons \emph{Toggle Boundaries} and \emph{Toggle Normal Vectors} respectively. Figure~\ref{fig:gui3} shows an estimate light direction show with the yellow arrow, as well as the user entered boundary, shown in red, and the approximated normal vectors, shown in green.
 
-\begin{figure}[]
-\begin{center}
-	\includegraphics[width=0.9\linewidth]{gui3.png}
-\end{center}
-	\caption{The estimated light direction (yellow arrow), occluding boundary (red), and approximated normal vectors (green).}
-\label{fig:gui3}
-\end{figure}
+%\begin{figure}[]
+%\begin{center}
+%	\includegraphics[width=0.9\linewidth]{gui3.png}
+%\end{center}
+%	\caption{The estimated light direction (yellow arrow), occluding boundary (red), and approximated normal vectors (green).}
+%\label{fig:gui3}
+%\end{figure}
 
 %------------------------------------------------------------------------
 \section{Experiments}
 We performed a number of experiments to test the performance of our tool. These experiments included both testing the light direction of calculated in images for which a ground truth has been obtained, and testing the tool on known composite images, with an emphasis on the former.
-
-\begin{figure*}[hbtp]
-\begin{subfigure}{.5\linewidth}
-  \centering
-	\includegraphics[width=0.5\linewidth]{nathan.png}
-  \caption{}
-  \label{fig:sfig1}
-\end{subfigure}
-\begin{subfigure}{.5\linewidth}
-  \centering
-	\includegraphics[width=0.5\linewidth]{zander.png}
-  \caption{}
-  \label{fig:sfig2}
-\end{subfigure}
-\begin{subfigure}{.5\linewidth}
-  \centering
-	\includegraphics[width=0.5\linewidth]{lamppost.png}
-  \caption{}
-  \label{fig:sfig3}
-\end{subfigure}
-\begin{subfigure}{.5\linewidth}
-  \centering
-	\includegraphics[width=0.5\linewidth]{bike_rack_1.png}
-  \caption{}
-  \label{fig:sfig4}
-\end{subfigure}
-\begin{subfigure}{.5\linewidth}
-  \centering
-	\includegraphics[width=0.5\linewidth]{garbage_can.png}
-  \caption{}
-  \label{fig:sfig5}
-\end{subfigure}
-\begin{subfigure}{.5\linewidth}
-  \centering
-	\includegraphics[width=0.5\linewidth]{nathan_2.png}
-  \caption{}
-  \label{fig:sfig6}
-\end{subfigure}
-\caption{Images taken that with known light directions.}
-\label{fig:images}
-\end{figure*}
+%
+%\begin{figure*}[hbtp]
+%\begin{subfigure}{.5\linewidth}
+%  \centering
+%	\includegraphics[width=0.5\linewidth]{nathan.png}
+%  \caption{}
+%  \label{fig:sfig1}
+%\end{subfigure}
+%\begin{subfigure}{.5\linewidth}
+%  \centering
+%	\includegraphics[width=0.5\linewidth]{zander.png}
+%  \caption{}
+%  \label{fig:sfig2}
+%\end{subfigure}
+%\begin{subfigure}{.5\linewidth}
+%  \centering
+%	\includegraphics[width=0.5\linewidth]{lamppost.png}
+%  \caption{}
+%  \label{fig:sfig3}
+%\end{subfigure}
+%\begin{subfigure}{.5\linewidth}
+%  \centering
+%	\includegraphics[width=0.5\linewidth]{bike_rack_1.png}
+%  \caption{}
+%  \label{fig:sfig4}
+%\end{subfigure}
+%\begin{subfigure}{.5\linewidth}
+%  \centering
+%	\includegraphics[width=0.5\linewidth]{garbage_can.png}
+%  \caption{}
+%  \label{fig:sfig5}
+%\end{subfigure}
+%\begin{subfigure}{.5\linewidth}
+%  \centering
+%	\includegraphics[width=0.5\linewidth]{nathan_2.png}
+%  \caption{}
+%  \label{fig:sfig6}
+%\end{subfigure}
+%\caption{Images taken that with known light directions.}
+%\label{fig:images}
+%\end{figure*}
 
 \subsection{Images with Known Light Directions}
 In Figure~\ref{fig:images} are examples of images that we tested our tool on. The ground truth for the light direction was estimated by holding a board with a protruding rod parallel to the image plane and measuring the direction of the shadow cast by the sun. This was then compared to the output of our tool. A brief summary of our results:
@@ -250,13 +267,13 @@ The average error for these images is 7.5\textdegree. We find that different kin
 \subsection{Composite Photo Analysis}
 Figure~\ref{img:golfFake} is an example of a composite image that our tool performs quite well with. An image of a golf ball has been placed on the bulb on the left, and the tool calculates a light direction discrepancy of 69\textdegree, strongly (and correctly) indicating a forgery.
 
-\begin{figure}[htpb]
-\begin{center}
-	\includegraphics[width=0.9\linewidth]{golfball_fake_labeled.png}
-\end{center}
-	\caption{An example of a composite (fake) image where there is clearly a light discrepancy. Our tool exposed a light direction difference of 69\textdegree.}
-\label{img:golfFake}
-\end{figure}
+%\begin{figure}[htpb]
+%\begin{center}
+%	\includegraphics[width=0.9\linewidth]{golfball_fake_labeled.png}
+%\end{center}
+%	\caption{An example of a composite (fake) image where there is clearly a light discrepancy. Our tool exposed a light direction difference of 69\textdegree.}
+%\label{img:golfFake}
+%\end{figure}
 
 \subsection{Error Analysis}
 Our tool requires a significant amount of user input which we believe is our major source of error. If the user does not choose points or draw the boundary carefully, the results may be significantly skewed. We sometimes had to try multiple times to achieve positive results on a single image.
