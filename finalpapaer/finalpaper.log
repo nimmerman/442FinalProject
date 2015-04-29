@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013) (format=pdflatex 2013.5.30)  29 APR 2015 19:17
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013) (format=pdflatex 2013.5.30)  29 APR 2015 19:31
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -553,10 +553,93 @@ LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <10> not available
 LaTeX Warning: Reference `fig:gui1' on page 3 undefined on input line 168.
 
 
+LaTeX Warning: No positions in optional float specifier.
+               Default added (so using `tbp') on input line 170.
+
+<images/gui1.png, id=30, 828.09375pt x 502.87875pt>
+File: images/gui1.png Graphic file (type png)
+ <use images/gui1.png>
+Package pdftex.def Info: images/gui1.png used on input line 172.
+(pdftex.def)             Requested size: 213.4209pt x 129.60207pt.
+
+
 LaTeX Warning: Reference `fig:gui2' on page 3 undefined on input line 178.
 
 
+LaTeX Warning: No positions in optional float specifier.
+               Default added (so using `tbp') on input line 180.
+
+<images/gui2.png, id=31, 824.07875pt x 503.8825pt>
+File: images/gui2.png Graphic file (type png)
+ <use images/gui2.png>
+Package pdftex.def Info: images/gui2.png used on input line 182.
+(pdftex.def)             Requested size: 213.4209pt x 130.49121pt.
+
+
 LaTeX Warning: Reference `fig:gui3' on page 3 undefined on input line 194.
+
+
+LaTeX Warning: No positions in optional float specifier.
+               Default added (so using `tbp') on input line 196.
+
+<images/gui3.png, id=32, 768.471pt x 487.0998pt>
+File: images/gui3.png Graphic file (type png)
+ <use images/gui3.png>
+Package pdftex.def Info: images/gui3.png used on input line 198.
+(pdftex.def)             Requested size: 213.4209pt x 135.27213pt.
+
+<images/nathan.png, id=34, 363.2772pt x 481.8pt>
+File: images/nathan.png Graphic file (type png)
+ <use images/nathan.png>
+Package pdftex.def Info: images/nathan.png used on input line 211.
+(pdftex.def)             Requested size: 124.21405pt x 164.73613pt.
+
+<images/zander.png, id=35, 387.3672pt x 488.0634pt>
+File: images/zander.png Graphic file (type png)
+ <use images/zander.png>
+Package pdftex.def Info: images/zander.png used on input line 217.
+(pdftex.def)             Requested size: 124.21405pt x 156.50371pt.
+
+<images/lamppost.png, id=36, 363.759pt x 481.8pt>
+File: images/lamppost.png Graphic file (type png)
+ <use images/lamppost.png>
+Package pdftex.def Info: images/lamppost.png used on input line 223.
+(pdftex.def)             Requested size: 124.21405pt x 164.51558pt.
+
+<images/bike_rack_1.png, id=37, 271.0125pt x 386.44376pt>
+File: images/bike_rack_1.png Graphic file (type png)
+
+<use images/bike_rack_1.png>
+Package pdftex.def Info: images/bike_rack_1.png used on input line 229.
+(pdftex.def)             Requested size: 124.21405pt x 177.11765pt.
+
+<images/garbage_can.png, id=38, 297.11pt x 395.4775pt>
+File: images/garbage_can.png Graphic file (type png)
+
+<use images/garbage_can.png>
+Package pdftex.def Info: images/garbage_can.png used on input line 235.
+(pdftex.def)             Requested size: 124.21405pt x 165.33907pt.
+
+<images/nathan_2.png, id=39, 301.125pt x 396.48125pt>
+File: images/nathan_2.png Graphic file (type png)
+
+<use images/nathan_2.png>
+Package pdftex.def Info: images/nathan_2.png used on input line 241.
+(pdftex.def)             Requested size: 124.21405pt x 163.55052pt.
+
+Overfull \hbox (1.90001pt too wide) in paragraph at lines 209--245
+[]$[]$ $[]$
+ []
+
+
+Overfull \hbox (1.90001pt too wide) in paragraph at lines 209--245
+[]$ $[]$
+ []
+
+
+Overfull \hbox (1.90001pt too wide) in paragraph at lines 209--245
+[]$ $[]$ 
+ []
 
 
 LaTeX Warning: Reference `fig:images' on page 3 undefined on input line 250.
@@ -583,31 +666,50 @@ Underfull \hbox (badness 1348) in paragraph at lines 250--266
  []
 
 
-LaTeX Warning: Reference `img:golfFake' on page 3 undefined on input line 268.
+Underfull \vbox (badness 4328) has occurred while \output is active []
 
-[3]
+ [3 <./images/gui1.png> <./images/gui2.png> <./images/gui3.png>]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+Overfull \vbox (0.7966pt too high) has occurred while \output is active []
+
+
+[4 <./images/nathan.png> <./images/zander.png> <./images/lamppost.png> <./image
+s/bike_rack_1.png> <./images/garbage_can.png> <./images/nathan_2.png>]
+
+LaTeX Warning: Reference `img:golfFake' on page 5 undefined on input line 268.
+
+<images/golfball_fake_labeled.png, id=61, 265.9536pt x 350.7504pt>
+File: images/golfball_fake_labeled.png Graphic file (type png)
+
+<use images/golfball_fake_labeled.png>
+Package pdftex.def Info: images/golfball_fake_labeled.png used on input line 27
+2.
+(pdftex.def)             Requested size: 213.4209pt x 281.48378pt.
 Package atveryend Info: Empty hook `BeforeClearDocument' on input line 293.
- [4
-
-]
+ [5 <./images/golfball_fake_labeled.png>]
 Package atveryend Info: Empty hook `AfterLastShipout' on input line 293.
- (./finalpaper.aux)
+(./finalpaper.aux)
 Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 293.
 Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 293.
 
 
 LaTeX Warning: There were undefined references.
 
+
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 293.
  ) 
 Here is how much of TeX's memory you used:
- 8728 strings out of 493315
- 130428 string characters out of 6137904
+ 8810 strings out of 493315
+ 131968 string characters out of 6137904
  227097 words of memory out of 5000000
- 12043 multiletter control sequences out of 15000+600000
- 23573 words of font info for 60 fonts, out of 8000000 for 9000
+ 12106 multiletter control sequences out of 15000+600000
+ 25158 words of font info for 62 fonts, out of 8000000 for 9000
  957 hyphenation exceptions out of 8191
- 42i,9n,40p,867b,330s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 42i,9n,40p,867b,482s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/local/texlive/2013/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/local/t
 exlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/te
 xlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/tex
@@ -620,10 +722,10 @@ texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb></usr/local/texlive/2013/texmf-di
 st/fonts/type1/urw/times/utmb8a.pfb></usr/local/texlive/2013/texmf-dist/fonts/t
 ype1/urw/times/utmr8a.pfb></usr/local/texlive/2013/texmf-dist/fonts/type1/urw/t
 imes/utmri8a.pfb>
-Output written on finalpaper.pdf (4 pages, 130361 bytes).
+Output written on finalpaper.pdf (5 pages, 7532886 bytes).
 PDF statistics:
- 85 PDF objects out of 1000 (max. 8388607)
- 67 compressed objects within 1 object stream
- 17 named destinations out of 1000 (max. 500000)
- 1 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 114 PDF objects out of 1000 (max. 8388607)
+ 77 compressed objects within 1 object stream
+ 23 named destinations out of 1000 (max. 500000)
+ 51 words of extra memory for PDF output out of 10000 (max. 10000000)
 
