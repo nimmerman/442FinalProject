@@ -61,7 +61,7 @@ Ann Arbor, Michigan\\
 
 With the advent of software tools such as Photoshop and Gimp, it is becoming increasingly simple to doctor and create fake images. One method of doctoring images is to create a composite image out of existing source images. Since composite images are difficult to detect for the common person, we have created a tool that enables users to determine composite images.
 
-It is often difficult to make the light direction throughout the entirety of composite images consistent. This fact can be leveraged to detect whether even well-stitched images are fake. By analyzing the light direction of different surfaces within the image, one can detect whether or not the two surfaces came from the same original image. An algorithm for detecting such inconsistencies has been outlined in Johnson and Farid's paper, \emph{Exposing digital forgeries by detecting inconsistencies in lighting}. We shall attempt our own implementation of this algorithm and measure our implementation based on accuracy.
+It is often difficult to make the light direction throughout the entirety of composite images consistent. This fact can be leveraged to detect whether even well-stitched images are fake. By analyzing the light direction of different surfaces within the image, one can detect whether or not the two surfaces came from the same original image. An algorithm for detecting such inconsistencies has been outlined in Johnson and Farid's paper, \emph{Exposing digital forgeries by detecting inconsistencies in lighting} [1]. We shall attempt our own implementation of this algorithm and measure our implementation based on accuracy.
 
 %------------------------------------------------------------------------
 \section{Approach}
@@ -286,7 +286,7 @@ Our tool requires a significant amount of user input which we believe is our maj
 
 %------------------------------------------------------------------------
 \section{Conclusion and Future Work}
-By implementing the algorithm in Johnson and Farid's paper, \emph{Exposing digital forgeries by detecting inconsistencies in lighting}, we were able to produce robust estimates of light directions and detect composite images. On images that we took outside on a sunny day we were able to achieve average error of 7.5\textdegree. Based on this result we would classify an image as a forgery if the image has two light directions with a discrepancy of over 25\textdegree. 
+By implementing the algorithm in Johnson and Farid's paper, \emph{Exposing digital forgeries by detecting inconsistencies in lighting} [1], we were able to produce robust estimates of light directions and detect composite images. On images that we took outside on a sunny day we were able to achieve average error of 7.5\textdegree. Based on this result we would classify an image as a forgery if the image has two light directions with a discrepancy of over 25\textdegree. 
  
 Light directions are often a reliable way to detect forgeries, however, the method is somewhat limited. Many images are not well-suited for this kind of detection, whether they lack suitable surfaces or the user simply does not know what he or she is looking for. In order to make use of the tool, the user must select boundaries on portions of the image that are suspected of being stitched together. We hope to incorporate other forgery detection algorithms that would account for more conditions to create an even more robust tool.
 
