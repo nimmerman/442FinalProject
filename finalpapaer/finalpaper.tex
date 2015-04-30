@@ -16,6 +16,8 @@
 \newcommand\note[1]{\textcolor{red}{#1}}
 
 \usepackage{subcaption}
+\usepackage{afterpage}
+
 
 % If you comment hyperref and then uncomment it, you should delete
 % egpaper.aux before re-running latex.  (Or just hit 'q' on the first latex
@@ -67,10 +69,10 @@ It is often difficult to make the light direction throughout the entirety of com
 The equation that we are making use of to estimate the light directions is \[I(x,y) = R\times (\vec{N}(x,y)\cdot \vec{L}) + A\]
 where $I(x,y)$ is the intensity at the point $(x,y)$, $R$ is the reflectance term (a constant), and $N(x,y)$ is the unit vector normal to the boundary at the point $(x,y)$. This equation assumes an infinite light source.
 
-A limitation of this equation is that it requires that the reflectance of the surface is known and that it is constant. By assuming that the reflectance equals 1, a vector for the light direction can be obtained with an unknown scale factor. However, this still requires that the object has constant reflectance. As the paper suggests, we are able to relax this constraint by partitioning the boundary into $n$ patches, and assume that each of these patches has constant reflectance. We can assume this because small, local patches of an object are likely to be very uniform, and therefore are likely to have a more of a constant reflectance than the overall reflectance of the object. In our implementation, we use $n$ = 8, which the authors of the paper recommend.
+A limitation of this equation is that it requires that the reflectance of the surface is known and that it is constant. By assuming that the reflectance equals 1, a vector for the light direction can be obtained with an unknown scale factor. However, this still requires that the object has constant reflectance. As the paper suggests, we are able to relax this constraint by partitioning the boundary into $n$ patches (or partitions), and assume that each of these patches has constant reflectance. We can assume this because small, local patches of an object are likely to be very uniform, and therefore are likely to have a more of a constant reflectance than the overall reflectance of the object. In our implementation, we use $n$ = 8, which the authors of the paper recommend.
 
 \subsection{Finding the Normal Vectors}
-To use this algorithm we need to calculate the vectors normal to the object boundaries that are assumed to be given to the algorithm. It is difficult to calculate the normal vector at an arbitrary point on the object because an arbitrary normal vector has three degrees of freedom: one for each component in three dimensions ($x$, $y$, and $z$). To eliminate a degree of freedom and make it possible to calculate the normal vectors, we constrain the algorithm to only consider occluding boundaries. At occluding boundaries, the vector normal to an object surface has a $z$-component of $0$. Also, at the occluding boundary, the $x$ and $y$ components of the normal vectors point in the same direction in both the scene and image coordinates. This makes it possible to estimate the normal vectors without any object-level knowledge or 3D information. 
+To use this algorithm we need to calculate the vectors normal to the object boundaries that are assumed to be given to the algorithm. It is difficult to calculate the normal vector at an arbitrary point on the object because an arbitrary normal vector has three degrees of freedom: one for each component in three dimensions ($x$, $y$, and $z$). To eliminate a degree of freedom and make it possible to calculate the normal vectors, we constrain the algorithm to only consider occluding boundaries because at occluding boundaries, the vector normal to an object surface has a $z$-component of $0$. Also, at the occluding boundary, the $x$ and $y$ components of the normal vectors point in the same direction in both the scene and image coordinates. This makes it possible to estimate the normal vectors without any object-level knowledge or 3D information. 
 
 We estimate a normal vector for each point given in every partition. The object boundary, however, is encoded as a set of points, and it is not possible to compute vectors normal to individual points. To solve this, we fit a quadratic curve $y = p(x)$ for each partition. The curve is fit to three user-selected points $(x_1,y_1), (x_2,y_2), (x_3,x_3)$ that lie near the boundary partition. This process is outlined below in detail:
 
@@ -159,9 +161,10 @@ $\vec{v}$ is the quantity we are trying to find. To do so, we use this closed fo
 %------------------------------------------------------------------------
 \section{Implementation}
 
-No third-party software or systems were used. All components of our project, including both the back-end and front-end GUI (graphical user interface), were implemented from scratch (other than the built-in functions that MATLAB provides). We chose to implement our tool in MATLAB due to our familiarity with the software and its built-in linear algebra and image manipulation functionality.
+No third-party software or systems were used. All components of our project, including both the back-end and front-end GUI (graphical user interface), were implemented from scratch (other than built-in functions that MATLAB provides). We chose to implement our tool in MATLAB due to our familiarity with the software and its built-in linear algebra and image manipulation functionality.
 
 Our GUI tries to streamline the user-input phase as much as possible. The steps in using our tool are as follows:
+
 \begin{itemize}
 \item The user opens the tool, entering the image path as a command-line argument.
 
@@ -185,9 +188,9 @@ Our GUI tries to streamline the user-input phase as much as possible. The steps 
 \label{fig:gui2}
 \end{figure}
 
-\item The GUI zooms out to reveal the entire boundary and the user selects on the object where the arrow indicating the light direction will be plotted. This process repeats for each boundary that the user added.
+\item The GUI then zooms out to reveal the entire boundary and the user selects on the object where the arrow indicating the light direction will be plotted. This process repeats for each boundary that the user added.
 
-\item The GUI plots the estimated light directions for each boundary at the locations that the user specified
+\item Finally, the GUI plots the estimated light directions for each boundary at the locations that the user specified
 
 \end{itemize}
 
@@ -205,53 +208,56 @@ The user also has the ability to view the entered boundaries and the estimated n
 \section{Experiments}
 We performed a number of experiments to test the performance of our tool. These experiments included both testing the light direction of calculated in images for which a ground truth has been obtained, and testing the tool on known composite images, with an emphasis on the former.
 
-\begin{figure*}[hbtp]
-\begin{subfigure}{.5\linewidth}
-  \centering
-	\includegraphics[width=0.5\linewidth]{nathan.png}
-  \caption{}
-  \label{fig:sfig1}
-\end{subfigure}
-\begin{subfigure}{.5\linewidth}
-  \centering
-	\includegraphics[width=0.5\linewidth]{zander.png}
-  \caption{}
-  \label{fig:sfig2}
-\end{subfigure}
-\begin{subfigure}{.5\linewidth}
-  \centering
-	\includegraphics[width=0.5\linewidth]{lamppost.png}
-  \caption{}
-  \label{fig:sfig3}
-\end{subfigure}
-\begin{subfigure}{.5\linewidth}
-  \centering
-	\includegraphics[width=0.5\linewidth]{bike_rack_1.png}
-  \caption{}
-  \label{fig:sfig4}
-\end{subfigure}
-\begin{subfigure}{.5\linewidth}
-  \centering
-	\includegraphics[width=0.5\linewidth]{garbage_can.png}
-  \caption{}
-  \label{fig:sfig5}
-\end{subfigure}
-\begin{subfigure}{.5\linewidth}
-  \centering
-	\includegraphics[width=0.5\linewidth]{nathan_2.png}
-  \caption{}
-  \label{fig:sfig6}
-\end{subfigure}
-\caption{Images taken that with known light directions.}
-\label{fig:images}
-\end{figure*}
-
+\afterpage{%
+	\begin{figure*}[]
+	\begin{subfigure}{.5\linewidth}
+	  \centering
+		\includegraphics[width=0.5\linewidth]{nathan.png}
+	  \caption{}
+	  \label{fig:sfig1}
+	\end{subfigure}
+	\begin{subfigure}{.5\linewidth}
+	  \centering
+		\includegraphics[width=0.5\linewidth]{zander.png}
+	  \caption{}
+	  \label{fig:sfig2}
+	\end{subfigure}
+	\begin{subfigure}{.5\linewidth}
+	  \centering
+		\includegraphics[width=0.5\linewidth]{lamppost.png}
+	  \caption{}
+	  \label{fig:sfig3}
+	\end{subfigure}
+	\begin{subfigure}{.5\linewidth}
+	  \centering
+		\includegraphics[width=0.5\linewidth]{bike_rack_1.png}
+	  \caption{}
+	  \label{fig:sfig4}
+	\end{subfigure}
+	\begin{subfigure}{.5\linewidth}
+	  \centering
+		\includegraphics[width=0.5\linewidth]{garbage_can.png}
+	  \caption{}
+	  \label{fig:sfig5}
+	\end{subfigure}
+	\begin{subfigure}{.5\linewidth}
+	  \centering
+		\includegraphics[width=0.5\linewidth]{nathan_2.png}
+	  \caption{}
+	  \label{fig:sfig6}
+	\end{subfigure}
+	\caption{Images taken that with known light directions.}
+	\label{fig:images}
+	\end{figure*}
+	\clearpage
+}
+% \newpage
 \subsection{Images with Known Light Directions}
 In Figure~\ref{fig:images} are examples of images that we tested our tool on. The ground truth for the light direction was estimated by holding a board with a protruding rod parallel to the image plane and measuring the direction of the shadow cast by the sun. This was then compared to the output of our tool. A brief summary of our results:
 \\\\
 \begin{tabular}{c | c | c | c }
 
-Image & Est. Direction & Ground Truth & Diff.\\
+Image & Est. Direction & Ground Truth & Difference\\
 \hline
 (a) & 121\textdegree & 113\textdegree & 8\textdegree\\
 (b) & 122\textdegree & 128\textdegree & 6\textdegree\\

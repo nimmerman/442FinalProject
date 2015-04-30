@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013) (format=pdflatex 2013.5.30)  29 APR 2015 19:39
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013) (format=pdflatex 2013.5.30)  29 APR 2015 22:27
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -323,7 +323,13 @@ ox {\small \noindent #1.~#2} \setlength {\@ctmp }{\hsize } \addtolength {\@ctmp
 )
 \c@subfigure=\count110
 \c@subtable=\count111
-) (/usr/local/texlive/2013/texmf-dist/tex/latex/hyperref/hyperref.sty
+) (/usr/local/texlive/2013/texmf-dist/tex/latex/tools/afterpage.sty
+Package: afterpage 1995/10/27 v1.08 After-Page Package (DPC)
+\AP@output=\toks22
+\AP@partial=\box30
+\AP@footins=\box31
+)
+(/usr/local/texlive/2013/texmf-dist/tex/latex/hyperref/hyperref.sty
 Package: hyperref 2012/11/06 v6.83m Hypertext links for LaTeX
 
 (/usr/local/texlive/2013/texmf-dist/tex/generic/oberdiek/hobsub-hyperref.sty
@@ -366,7 +372,7 @@ Package: letltxmacro 2010/09/02 v1.4 Let assignment for LaTeX macros (HO)
 Package: hopatch 2012/05/28 v1.2 Wrapper for package hooks (HO)
 Package: xcolor-patch 2011/01/30 xcolor patch
 Package: atveryend 2011/06/30 v1.8 Hooks at the very end of document (HO)
-Package atveryend Info: \enddocument detected (standard20110627).
+Package atveryend Info: \AP@enddocument detected (standard20110627).
 Package: atbegshi 2011/10/05 v1.16 At begin shipout hook (HO)
 Package: refcount 2011/10/16 v3.4 Data extraction from label references (HO)
 Package: hycolor 2011/01/30 v1.7 Color options for hyperref/bookmark (HO)
@@ -443,27 +449,27 @@ Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 2
 (./finalpaper.aux)
 \openout1 = `finalpaper.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 33.
-LaTeX Font Info:    ... okay on input line 33.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 33.
-LaTeX Font Info:    ... okay on input line 33.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 33.
-LaTeX Font Info:    ... okay on input line 33.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 33.
-LaTeX Font Info:    ... okay on input line 33.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 33.
-LaTeX Font Info:    ... okay on input line 33.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 33.
-LaTeX Font Info:    ... okay on input line 33.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 33.
-LaTeX Font Info:    Try loading font information for TS1+cmr on input line 33.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 35.
+LaTeX Font Info:    ... okay on input line 35.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 35.
+LaTeX Font Info:    ... okay on input line 35.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 35.
+LaTeX Font Info:    ... okay on input line 35.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 35.
+LaTeX Font Info:    ... okay on input line 35.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 35.
+LaTeX Font Info:    ... okay on input line 35.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 35.
+LaTeX Font Info:    ... okay on input line 35.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 35.
+LaTeX Font Info:    Try loading font information for TS1+cmr on input line 35.
  (/usr/local/texlive/2013/texmf-dist/tex/latex/base/ts1cmr.fd
 File: ts1cmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
 )
-LaTeX Font Info:    ... okay on input line 33.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 33.
-LaTeX Font Info:    ... okay on input line 33.
-LaTeX Font Info:    Try loading font information for OT1+ptm on input line 33.
+LaTeX Font Info:    ... okay on input line 35.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 35.
+LaTeX Font Info:    ... okay on input line 35.
+LaTeX Font Info:    Try loading font information for OT1+ptm on input line 35.
  (/usr/local/texlive/2013/texmf-dist/tex/latex/psnfss/ot1ptm.fd
 File: ot1ptm.fd 2001/06/04 font definitions for OT1/ptm.
 )
@@ -472,15 +478,15 @@ ABD: EveryShipout initializing macros
 [Loading MPS to PDF converter (version 2006.09.02).]
 \scratchcounter=\count122
 \scratchdimen=\dimen139
-\scratchbox=\box30
+\scratchbox=\box32
 \nofMPsegments=\count123
 \nofMParguments=\count124
-\everyMPshowfont=\toks22
+\everyMPshowfont=\toks23
 \MPscratchCnt=\count125
 \MPscratchDim=\dimen140
 \MPnumerator=\count126
 \makeMPintoPDFobject=\count127
-\everyMPtoPDFconversion=\toks23
+\everyMPtoPDFconversion=\toks24
 ) (/usr/local/texlive/2013/texmf-dist/tex/latex/oberdiek/epstopdf-base.sty
 Package: epstopdf-base 2010/02/09 v2.5 Base part for package epstopdf
 
@@ -499,9 +505,9 @@ e
 Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: hyperref package is loaded.
 Package caption Info: End \AtBeginDocument code.
-\AtBeginShipoutBox=\box31
+\AtBeginShipoutBox=\box33
 Package atbegshi Info: Package `everyshi' patched.
-Package hyperref Info: Link coloring OFF on input line 33.
+Package hyperref Info: Link coloring OFF on input line 35.
 
 (/usr/local/texlive/2013/texmf-dist/tex/latex/hyperref/nameref.sty
 Package: nameref 2012/10/27 v2.43 Cross-referencing by name of section
@@ -511,36 +517,36 @@ Package: gettitlestring 2010/12/03 v1.4 Cleanup title references (HO)
 )
 \c@section@level=\count128
 )
-LaTeX Info: Redefining \ref on input line 33.
-LaTeX Info: Redefining \pageref on input line 33.
-LaTeX Info: Redefining \nameref on input line 33.
+LaTeX Info: Redefining \ref on input line 35.
+LaTeX Info: Redefining \pageref on input line 35.
+LaTeX Info: Redefining \nameref on input line 35.
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <14.4> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 56.
-LaTeX Font Info:    Try loading font information for U+msa on input line 56.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 58.
+LaTeX Font Info:    Try loading font information for U+msa on input line 58.
 
 (/usr/local/texlive/2013/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 56.
+LaTeX Font Info:    Try loading font information for U+msb on input line 58.
 
 (/usr/local/texlive/2013/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
-LaTeX Font Info:    Try loading font information for OT1+pcr on input line 56.
+LaTeX Font Info:    Try loading font information for OT1+pcr on input line 58.
 
 (/usr/local/texlive/2013/texmf-dist/tex/latex/psnfss/ot1pcr.fd
 File: ot1pcr.fd 2001/06/04 font definitions for OT1/pcr.
 )
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <12> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 58.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 60.
 
-Underfull \vbox (badness 3260) has occurred while \output is active []
+Underfull \vbox (badness 1371) has occurred while \output is active []
 
  [1{/usr/local/texlive/2013/texmf-var/fonts/map/pdftex/updmap/pdftex.map}
 
 
 ] [2]
-LaTeX Font Info:    Try loading font information for TS1+ptm on input line 166.
+LaTeX Font Info:    Try loading font information for TS1+ptm on input line 169.
 
 
 (/usr/local/texlive/2013/texmf-dist/tex/latex/psnfss/ts1ptm.fd
@@ -548,143 +554,142 @@ File: ts1ptm.fd 2001/06/04 font definitions for TS1/ptm.
 )
 
 LaTeX Warning: No positions in optional float specifier.
-               Default added (so using `tbp') on input line 170.
+               Default added (so using `tbp') on input line 173.
 
 <images/gui1.png, id=31, 828.09375pt x 502.87875pt>
 File: images/gui1.png Graphic file (type png)
  <use images/gui1.png>
-Package pdftex.def Info: images/gui1.png used on input line 172.
+Package pdftex.def Info: images/gui1.png used on input line 175.
 (pdftex.def)             Requested size: 213.4209pt x 129.60207pt.
 
 
 LaTeX Warning: No positions in optional float specifier.
-               Default added (so using `tbp') on input line 180.
+               Default added (so using `tbp') on input line 183.
 
 <images/gui2.png, id=33, 824.07875pt x 503.8825pt>
 File: images/gui2.png Graphic file (type png)
  <use images/gui2.png>
-Package pdftex.def Info: images/gui2.png used on input line 182.
+Package pdftex.def Info: images/gui2.png used on input line 185.
 (pdftex.def)             Requested size: 213.4209pt x 130.49121pt.
 
 
 LaTeX Warning: No positions in optional float specifier.
-               Default added (so using `tbp') on input line 196.
+               Default added (so using `tbp') on input line 199.
 
 <images/gui3.png, id=35, 768.471pt x 487.0998pt>
 File: images/gui3.png Graphic file (type png)
  <use images/gui3.png>
-Package pdftex.def Info: images/gui3.png used on input line 198.
+Package pdftex.def Info: images/gui3.png used on input line 201.
 (pdftex.def)             Requested size: 213.4209pt x 135.27213pt.
 
-<images/nathan.png, id=37, 363.2772pt x 481.8pt>
-File: images/nathan.png Graphic file (type png)
- <use images/nathan.png>
-Package pdftex.def Info: images/nathan.png used on input line 211.
-(pdftex.def)             Requested size: 124.21405pt x 164.73613pt.
-
-<images/zander.png, id=38, 387.3672pt x 488.0634pt>
-File: images/zander.png Graphic file (type png)
- <use images/zander.png>
-Package pdftex.def Info: images/zander.png used on input line 217.
-(pdftex.def)             Requested size: 124.21405pt x 156.50371pt.
-
-<images/lamppost.png, id=39, 363.759pt x 481.8pt>
-File: images/lamppost.png Graphic file (type png)
- <use images/lamppost.png>
-Package pdftex.def Info: images/lamppost.png used on input line 223.
-(pdftex.def)             Requested size: 124.21405pt x 164.51558pt.
-
-<images/bike_rack_1.png, id=40, 271.0125pt x 386.44376pt>
-File: images/bike_rack_1.png Graphic file (type png)
-
-<use images/bike_rack_1.png>
-Package pdftex.def Info: images/bike_rack_1.png used on input line 229.
-(pdftex.def)             Requested size: 124.21405pt x 177.11765pt.
-
-<images/garbage_can.png, id=41, 297.11pt x 395.4775pt>
-File: images/garbage_can.png Graphic file (type png)
-
-<use images/garbage_can.png>
-Package pdftex.def Info: images/garbage_can.png used on input line 235.
-(pdftex.def)             Requested size: 124.21405pt x 165.33907pt.
-
-<images/nathan_2.png, id=42, 301.125pt x 396.48125pt>
-File: images/nathan_2.png Graphic file (type png)
-
-<use images/nathan_2.png>
-Package pdftex.def Info: images/nathan_2.png used on input line 241.
-(pdftex.def)             Requested size: 124.21405pt x 163.55052pt.
-
-Overfull \hbox (1.90001pt too wide) in paragraph at lines 209--245
-[]$[]$ $[]$
- []
-
-
-Overfull \hbox (1.90001pt too wide) in paragraph at lines 209--245
-[]$ $[]$
- []
-
-
-Overfull \hbox (1.90001pt too wide) in paragraph at lines 209--245
-[]$ $[]$ 
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 250--266
+Underfull \hbox (badness 10000) in paragraph at lines 256--272
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 250--266
+Underfull \hbox (badness 10000) in paragraph at lines 256--272
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 250--266
+Underfull \hbox (badness 10000) in paragraph at lines 256--272
 
  []
 
 
-Underfull \hbox (badness 1348) in paragraph at lines 250--266
+Underfull \hbox (badness 1348) in paragraph at lines 256--272
 \OT1/ptm/m/n/10 that dif-fer-ent kinds of sur-faces yield dif-fer-ent re-sults.
 
  []
 
 
-Underfull \vbox (badness 4328) has occurred while \output is active []
+Underfull \vbox (badness 2837) has occurred while \output is active []
 
  [3 <./images/gui1.png> <./images/gui2.png> <./images/gui3.png>]
-Underfull \vbox (badness 10000) has occurred while \output is active []
+
+LaTeX Warning: No positions in optional float specifier.
+               Default added (so using `tbp') on input line 272.
+
+<images/nathan.png, id=47, 363.2772pt x 481.8pt>
+File: images/nathan.png Graphic file (type png)
+ <use images/nathan.png>
+Package pdftex.def Info: images/nathan.png used on input line 272.
+(pdftex.def)             Requested size: 124.21405pt x 164.73613pt.
+
+<images/zander.png, id=48, 387.3672pt x 488.0634pt>
+File: images/zander.png Graphic file (type png)
+ <use images/zander.png>
+Package pdftex.def Info: images/zander.png used on input line 272.
+(pdftex.def)             Requested size: 124.21405pt x 156.50371pt.
+
+<images/lamppost.png, id=49, 363.759pt x 481.8pt>
+File: images/lamppost.png Graphic file (type png)
+ <use images/lamppost.png>
+Package pdftex.def Info: images/lamppost.png used on input line 272.
+(pdftex.def)             Requested size: 124.21405pt x 164.51558pt.
+
+<images/bike_rack_1.png, id=50, 271.0125pt x 386.44376pt>
+File: images/bike_rack_1.png Graphic file (type png)
+
+<use images/bike_rack_1.png>
+Package pdftex.def Info: images/bike_rack_1.png used on input line 272.
+(pdftex.def)             Requested size: 124.21405pt x 177.11765pt.
+
+<images/garbage_can.png, id=51, 297.11pt x 395.4775pt>
+File: images/garbage_can.png Graphic file (type png)
+
+<use images/garbage_can.png>
+Package pdftex.def Info: images/garbage_can.png used on input line 272.
+(pdftex.def)             Requested size: 124.21405pt x 165.33907pt.
+
+<images/nathan_2.png, id=52, 301.125pt x 396.48125pt>
+File: images/nathan_2.png Graphic file (type png)
+
+<use images/nathan_2.png>
+Package pdftex.def Info: images/nathan_2.png used on input line 272.
+(pdftex.def)             Requested size: 124.21405pt x 163.55052pt.
+
+Overfull \hbox (1.90001pt too wide) in paragraph at lines 272--272
+[]$[]$ $[]$
+ []
 
 
-Overfull \vbox (0.7966pt too high) has occurred while \output is active []
+Overfull \hbox (1.90001pt too wide) in paragraph at lines 272--272
+[]$ $[]$
+ []
 
+
+Overfull \hbox (1.90001pt too wide) in paragraph at lines 272--272
+[]$ $[]$ 
+ []
 
 [4 <./images/nathan.png> <./images/zander.png> <./images/lamppost.png> <./image
 s/bike_rack_1.png> <./images/garbage_can.png> <./images/nathan_2.png>]
-<images/golfball_fake_labeled.png, id=66, 265.9536pt x 350.7504pt>
+<images/golfball_fake_labeled.png, id=65, 265.9536pt x 350.7504pt>
 File: images/golfball_fake_labeled.png Graphic file (type png)
 
 <use images/golfball_fake_labeled.png>
 Package pdftex.def Info: images/golfball_fake_labeled.png used on input line 27
-2.
+8.
 (pdftex.def)             Requested size: 213.4209pt x 281.48378pt.
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 293.
- [5 <./images/golfball_fake_labeled.png>]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 293.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 299.
+ [5
+
+ <./images/golfball_fake_labeled.png>]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 299.
 (./finalpaper.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 293.
-Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 293.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 293.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 299.
+Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 299.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 299.
  ) 
 Here is how much of TeX's memory you used:
- 8807 strings out of 493315
- 131933 string characters out of 6137904
- 228002 words of memory out of 5000000
- 12104 multiletter control sequences out of 15000+600000
+ 8825 strings out of 493315
+ 132226 string characters out of 6137904
+ 228493 words of memory out of 5000000
+ 12119 multiletter control sequences out of 15000+600000
  23532 words of font info for 60 fonts, out of 8000000 for 9000
  957 hyphenation exceptions out of 8191
- 42i,9n,40p,867b,482s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 42i,9n,40p,874b,487s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/local/texlive/2013/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/local/t
 exlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/te
 xlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/tex
@@ -697,7 +702,7 @@ texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb></usr/local/texlive/2013/texmf-di
 st/fonts/type1/urw/times/utmb8a.pfb></usr/local/texlive/2013/texmf-dist/fonts/t
 ype1/urw/times/utmr8a.pfb></usr/local/texlive/2013/texmf-dist/fonts/type1/urw/t
 imes/utmri8a.pfb>
-Output written on finalpaper.pdf (5 pages, 7532671 bytes).
+Output written on finalpaper.pdf (5 pages, 7532658 bytes).
 PDF statistics:
  119 PDF objects out of 1000 (max. 8388607)
  82 compressed objects within 1 object stream
