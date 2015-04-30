@@ -59,7 +59,7 @@ Ann Arbor, Michigan\\
 %%%%%%%%% BODY TEXT
 \section{Introduction}
 
-With the advent of software tools such as Photoshop and Gimp, it is becoming increasingly simple to doctor and create fake images. One method of doctoring images is to create a composite image out of existing source images. Since composite images are difficult to detect for the common person, we hope to create a tool that enables users to determine composite images.
+With the advent of software tools such as Photoshop and Gimp, it is becoming increasingly simple to doctor and create fake images. One method of doctoring images is to create a composite image out of existing source images. Since composite images are difficult to detect for the common person, we have created a tool that enables users to determine composite images.
 
 It is often difficult to make the light direction throughout the entirety of composite images consistent. This fact can be leveraged to detect whether even well-stitched images are fake. By analyzing the light direction of different surfaces within the image, one can detect whether or not the two surfaces came from the same original image. An algorithm for detecting such inconsistencies has been outlined in Johnson and Farid's paper, \emph{Exposing digital forgeries by detecting inconsistencies in lighting}. We shall attempt our own implementation of this algorithm and measure our implementation based on accuracy.
 
@@ -94,7 +94,7 @@ The next step is to compute the vectors normal to the boundary using the quadrat
 \[N_x(x,y) = \frac{1}{\sqrt{1 + m^2}}\]
 \[N_y(x,y) = \frac{m}{\sqrt{1 + m^2}}\]
 
-At each partition, the user must indicate a fourth point that lies on the object to indicate which direction the normal vectors should point. If the normal vector that we calculate points away from this point, we simply scale the normal vector by a factor of -1 to reverse its direction.
+At each partition, the user must select a fourth point that lies on the object to indicate which direction the normal vectors should point. If the normal vector that we calculate points away from this point, we simply scale the normal vector by a factor of -1 to reverse its direction.
 
 \subsection{Estimating Intensities at the Occluding Boundary}
 We need to estimate the intensities of the pixels at the occluding boundary because the pixels are not in the image. For a single point along the boundary, this is accomplished by sampling $n$ pixels along the direction opposite of the normal vector and fitting an exponential curve to these values, namely \[I(x) = ax^{b}\] where x is the position along the negative normal direction and $I(0)$ is the intensity at the occluding boundary. We used $n = 15$.
